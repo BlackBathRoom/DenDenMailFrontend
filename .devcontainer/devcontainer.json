@@ -1,0 +1,29 @@
+{
+  "name": "app-dev",
+  "dockerComposeFile": ["./docker-compose.yml"],
+  "service": "app-dev",
+  "workspaceFolder": "/app",
+  "remoteUser": "node",
+  "mounts": [
+    {
+      "type": "volume",
+      "target": "${containerWorkspaceFolder}/node_modules"
+    }
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "editor.renderWhitespace": "all"
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
+  },
+  "postAttachCommand": "sudo chown -R node:node /app ./node_modules && npm i",
+  "forwardPorts": [3157, 6006]
+}
