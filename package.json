@@ -25,7 +25,7 @@
     "@storybook/addon-a11y": "^9.0.14",
     "@storybook/addon-docs": "^9.0.14",
     "@storybook/addon-vitest": "^9.0.14",
-    "@storybook/react-vite": "^9.0.14",
+    "@storybook/react-vite": "^9.0.15",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/router-devtools": "^1.123.2",
     "@tanstack/router-plugin": "^1.123.2",
