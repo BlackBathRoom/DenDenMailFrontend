@@ -20,12 +20,35 @@
 - React: 19
 - TailwindCSS: 4
 
+## 前提
+
+下記がインストール、設定済みであることを確認します。
+
+エディタはvsCodeを推奨します。
+
+### devcontainer使用の場合
+
+- wsl 2（Windowsの場合）
+  - [インストール手順](docs/setup_wsl.md)
+- Docker
+  - [インストール手順](docs/setup_docker.md)
+- vsCode
+  - 拡張機能
+    - [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+
+### devcontainer未使用の場合
+
+- nodejs 22
+
 ## クローン手順（SSH/Bash）
+
+- 事前にwsl上でsshキーの取得を行ってください。
+  - [取得方法](docs/setup_sshkey.md)
 
 ```bash
 # リポジトリをSSHでクローン
-git clone git@github.com:your-name-or-org/your-repo.git
-cd your-repo
+git clone git@github.com:BlackBathRoom/DenDenMailFrontend.git
+cd DenDenMailFrontend
 ```
 
 ## セットアップ
