@@ -49,7 +49,17 @@
 # リポジトリをSSHでクローン
 git clone git@github.com:BlackBathRoom/DenDenMailFrontend.git
 cd DenDenMailFrontend
+code .
 ```
+
+## Dev Containerで開く
+
+- `Shift` + `Ctrl` + `p` をクリック
+- コマンドパレットが開くので`reopen in container`と入力
+- `Dev Containers: Reopen in Container`を選択
+
+> [!NOTE]
+> 初回はビルド時間がかかるためすぐに開きません
 
 ## セットアップ
 
