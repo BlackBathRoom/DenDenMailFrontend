@@ -59,7 +59,6 @@ export const useTheme = (): Return => {
   useEffect(() => {
     const resolved = resolveTheme(theme);
     setResolvedTheme(resolved);
-    document.documentElement.removeAttribute('data-theme');
     document.documentElement.setAttribute(
       'data-theme',
       mapThemeToDaisyUI(resolved)
