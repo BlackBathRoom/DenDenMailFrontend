@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "type-check": "tsc -b --noEmit",
     "lint": "eslint .",
     "format": "prettier --write ./src/**/* --ignore-unknown",
     "preview": "vite preview",
@@ -28,6 +29,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-router-devtools": "^1.130.13",
     "@tanstack/router-plugin": "^1.130.2",
+    "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react-swc": "^3.11.0",
