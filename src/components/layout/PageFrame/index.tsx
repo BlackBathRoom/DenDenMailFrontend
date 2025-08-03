@@ -4,13 +4,13 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Layout: React.FC<Props> = ({ children }) => {
+const PageFrame: React.FC<Props> = ({ children }) => {
   return (
-    <div className="flex flex-col px-7 py-5">
+    <div className="flex flex-col gap-5 px-7 py-5 h-screen w-full">
       <Header />
-      {children}
+      <div className="flex-1 w-full">{children}</div>
     </div>
   );
 };
 
-export default Layout;
+export default PageFrame;
