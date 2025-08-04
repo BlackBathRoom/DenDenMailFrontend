@@ -31,5 +31,7 @@
     ".vscode-insiders"
   ],
   "extensions.ignoreRecommendations": false,
-  "cSpell.words": []
+  "cSpell.words": [
+    "daisyui"
+  ]
 }

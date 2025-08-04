@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import __COMPONENT__ from './index';
+import Header from './index';
 
-const meta: Meta<typeof __COMPONENT__> = {
-  title: 'Components/__TYPE__/__COMPONENT__',
-  component: __COMPONENT__,
+const meta: Meta<typeof Header> = {
+  title: 'Components/ui/Header',
+  component: Header,
   parameters: {
     layout: 'center',
   },
