@@ -13,7 +13,7 @@ import tseslintParser from '@typescript-eslint/parser';
 
 export default tseslint.config(
   [
-    globalIgnores(['dist', 'scripts/template', '.storybook', 'src/stories']),
+    globalIgnores(['dist', 'scripts/template', '.storybook']),
     {
       extends: [js.configs.recommended, ...tseslint.configs.recommended],
       files: ['src/**/*.{ts,tsx}'],
