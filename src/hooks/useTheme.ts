@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
-import type { ResolvedTheme, Theme } from './type';
-import { LOCAL_STORAGE_KEY, DAISYUI_MODE_THEMES } from './constant';
+
+const DAISYUI_MODE_THEMES = {
+  light: 'lemonade',
+  dark: 'coffee',
+};
+
+const LOCAL_STORAGE_KEY = 'theme-storage';
+
+type Theme = 'light' | 'dark' | 'system';
+type ResolvedTheme = Exclude<Theme, 'system'>;
 
 const getSystemTheme = (): ResolvedTheme => {
   if (typeof window === 'undefined') return 'light';
