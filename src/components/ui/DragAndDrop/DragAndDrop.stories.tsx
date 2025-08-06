@@ -257,12 +257,240 @@ const KanbanTest = () => {
   );
 };
 
+// ネストされたドロップゾーンのテスト
+interface FileItem {
+  id: string;
+  content: string;
+  type: 'folder' | 'file';
+  parent: string | null;
+}
+
+const NestedDropZoneTest = () => {
+  const [items, setItems] = useState<FileItem[]>([
+    { id: 'item1', content: 'フォルダA', type: 'folder', parent: null },
+    { id: 'item2', content: 'ファイル1.txt', type: 'file', parent: null },
+    { id: 'item3', content: 'ファイル2.pdf', type: 'file', parent: null },
+    { id: 'item4', content: 'フォルダB', type: 'folder', parent: null },
+    { id: 'item5', content: '画像.jpg', type: 'file', parent: 'item1' },
+    {
+      id: 'item6',
+      content: 'ドキュメント.docx',
+      type: 'file',
+      parent: 'item4',
+    },
+  ]);
+
+  const [expandedFolders, setExpandedFolders] = useState<string[]>([
+    'item1',
+    'item4',
+  ]);
+
+  const moveItem = (itemId: string, newParent: string | null) => {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === itemId ? { ...item, parent: newParent } : item
+      )
+    );
+  };
+
+  const toggleFolder = (folderId: string) => {
+    setExpandedFolders((prev) =>
+      prev.includes(folderId)
+        ? prev.filter((id) => id !== folderId)
+        : [...prev, folderId]
+    );
+  };
+
+  const getRootItems = () => items.filter((item) => item.parent === null);
+  const getChildItems = (parentId: string) =>
+    items.filter((item) => item.parent === parentId);
+
+  const renderItem = (item: FileItem, level = 0) => {
+    const isFolder = item.type === 'folder';
+    const isExpanded = expandedFolders.includes(item.id);
+    const childItems = getChildItems(item.id);
+    const paddingLeft = level * 20;
+
+    return (
+      <div key={item.id} style={{ paddingLeft: `${paddingLeft}px` }}>
+        <DragAndDrop.Item
+          itemId={item.id}
+          className={`
+            bg-white p-2 mb-1 rounded border shadow-sm hover:shadow-md transition-shadow
+            flex items-center gap-2 cursor-grab
+            ${isFolder ? 'bg-blue-50 border-blue-200' : 'bg-gray-50'}
+          `}
+        >
+          <div className="flex items-center gap-2 flex-1">
+            {isFolder && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFolder(item.id);
+                }}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {isExpanded ? '📂' : '📁'}
+              </button>
+            )}
+            {!isFolder && <span>📄</span>}
+            <span className="flex-1">{item.content}</span>
+            {isFolder && (
+              <span className="text-xs text-gray-500">
+                ({childItems.length}個のアイテム)
+              </span>
+            )}
+          </div>
+        </DragAndDrop.Item>
+
+        {/* ネストされたドロップゾーン（フォルダ用） */}
+        {isFolder && isExpanded && (
+          <div className="ml-4 mt-1">
+            <DragAndDrop.DropZone
+              isNested={true}
+              onDrop={(itemId) => moveItem(itemId, item.id)}
+              className="border-2 border-dashed border-blue-200 rounded p-2 min-h-[60px] bg-blue-25"
+            >
+              <div className="space-y-1">
+                {childItems.map((childItem) =>
+                  renderItem(childItem, level + 1)
+                )}
+                {childItems.length === 0 && (
+                  <div className="text-gray-400 text-center py-2 text-sm">
+                    フォルダは空です
+                  </div>
+                )}
+              </div>
+            </DragAndDrop.DropZone>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="space-y-6 max-w-4xl mx-auto">
+      <h2 className="text-2xl font-bold text-center">
+        ネストされたドロップゾーン（ファイルエクスプローラー風）
+      </h2>
+
+      <div className="bg-gray-50 p-4 rounded-lg">
+        <h4 className="font-semibold mb-2">📝 使い方</h4>
+        <ul className="text-sm text-gray-600 space-y-1">
+          <li>• ファイルやフォルダをドラッグして移動できます</li>
+          <li>• フォルダアイコンをクリックで開閉できます</li>
+          <li>• フォルダ内の点線エリアにドロップで中に移動</li>
+          <li>• ルートエリアにドロップで最上位に移動</li>
+        </ul>
+      </div>
+
+      <DragAndDrop className="bg-white border rounded-lg p-4">
+        {/* ルートレベルのドロップゾーン */}
+        <DragAndDrop.DropZone
+          onDrop={(itemId) => moveItem(itemId, null)}
+          className="border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[400px]"
+        >
+          <div className="space-y-2">
+            <h3 className="font-semibold text-gray-700 mb-4">
+              🗂️ ファイルエクスプローラー
+            </h3>
+
+            {getRootItems().map((item) => renderItem(item))}
+
+            {getRootItems().length === 0 && (
+              <div className="text-gray-500 text-center py-8">
+                アイテムをここにドロップ
+              </div>
+            )}
+          </div>
+        </DragAndDrop.DropZone>
+      </DragAndDrop>
+
+      {/* 統計表示 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-blue-50 p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-blue-600">
+            {items.filter((item) => item.type === 'folder').length}
+          </div>
+          <div className="text-sm text-blue-600">フォルダ</div>
+        </div>
+        <div className="bg-green-50 p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-green-600">
+            {items.filter((item) => item.type === 'file').length}
+          </div>
+          <div className="text-sm text-green-600">ファイル</div>
+        </div>
+        <div className="bg-purple-50 p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-purple-600">
+            {items.filter((item) => item.parent === null).length}
+          </div>
+          <div className="text-sm text-purple-600">ルートアイテム</div>
+        </div>
+      </div>
+
+      {/* リセットボタン */}
+      <div className="text-center">
+        <button
+          onClick={() => {
+            setItems([
+              {
+                id: 'item1',
+                content: 'フォルダA',
+                type: 'folder',
+                parent: null,
+              },
+              {
+                id: 'item2',
+                content: 'ファイル1.txt',
+                type: 'file',
+                parent: null,
+              },
+              {
+                id: 'item3',
+                content: 'ファイル2.pdf',
+                type: 'file',
+                parent: null,
+              },
+              {
+                id: 'item4',
+                content: 'フォルダB',
+                type: 'folder',
+                parent: null,
+              },
+              {
+                id: 'item5',
+                content: '画像.jpg',
+                type: 'file',
+                parent: 'item1',
+              },
+              {
+                id: 'item6',
+                content: 'ドキュメント.docx',
+                type: 'file',
+                parent: 'item4',
+              },
+            ]);
+            setExpandedFolders(['item1', 'item4']);
+          }}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+        >
+          リセット
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export const Default: Story = {
   render: () => <BasicDragDropTest />,
 };
 
 export const KanbanBoard: Story = {
   render: () => <KanbanTest />,
+};
+
+export const NestedDropZones: Story = {
+  render: () => <NestedDropZoneTest />,
 };
 
 export const Simple: Story = {
