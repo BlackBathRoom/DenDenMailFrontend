@@ -1,0 +1,134 @@
+import { useState } from 'react';
+import DragAndDrop from '../../../../components/ui/DragAndDrop';
+import PriorityItem from '../PriorityItem';
+import Divider from '../../../../components/layout/Divider';
+import Modal from '../../../../components/ui/Modal';
+import PriorityForm from '../PriorityForm';
+import { useModal } from '../../../../hooks/useModal';
+
+type Content = {
+  id: string;
+  content: string;
+  level: number;
+};
+
+type Props = {
+  initialContents: Content[];
+};
+
+const PriorityContent: React.FC<Props> = ({ initialContents = [] }) => {
+  const [contents, setContents] = useState<Content[]>(initialContents);
+  const [editContent, setEditContent] = useState<Content | null>(null);
+  const { openModal: openAddModal, closeModal: closeAddModal } =
+    useModal('add-content-modal');
+  const { openModal: openEditModal, closeModal: closeEditModal } =
+    useModal('edit-content-modal');
+
+  const contentLevels = [
+    ...new Set(contents.map((content) => content.level)),
+  ].sort((a, b) => a - b);
+
+  const handleDrop = (itemId: string, targetLevel: number) => {
+    setContents(
+      contents.map((content) =>
+        content.id === itemId ? { ...content, level: targetLevel } : content
+      )
+    );
+  };
+
+  const handleDelete = (id: string) => {
+    setContents(contents.filter((content) => content.id !== id));
+  };
+
+  const handleEdit = (id: string) => {
+    const contentToEdit = contents.find((content) => content.id === id);
+    if (contentToEdit) {
+      setEditContent(contentToEdit);
+      openEditModal();
+    }
+  };
+
+  const handleAddContent = (content: string, level: number) => {
+    const newContent: Content = {
+      id: `content-${Date.now()}`,
+      content,
+      level,
+    };
+    setContents([...contents, newContent]);
+    closeAddModal(); // フォーム送信後にモーダルを閉じる
+  };
+
+  const handleEditContent = (content: string, level: number) => {
+    if (editContent) {
+      setContents(
+        contents.map((c) =>
+          c.id === editContent.id ? { ...c, content, level } : c
+        )
+      );
+      setEditContent(null);
+      closeEditModal();
+    }
+  };
+
+  return (
+    <>
+      <div className="mb-4">
+        <button className="btn btn-primary" onClick={openAddModal}>
+          + 新しいコンテンツを追加
+        </button>
+      </div>
+      <DragAndDrop className="flex flex-col gap-5">
+        {contentLevels.map((level, i) => (
+          <>
+            <DragAndDrop.DropZone
+              key={level}
+              className="flex flex-col gap-5 p-4 border rounded-lg"
+              onDrop={(itemId: string) => handleDrop(itemId, level)}
+            >
+              {contents
+                .filter((content) => content.level === level)
+                .map((content) => (
+                  <DragAndDrop.Item key={content.id} itemId={content.id}>
+                    <PriorityItem
+                      itemName={content.content}
+                      itemId={content.id}
+                      onClickDelete={handleDelete}
+                      onClickEdit={handleEdit}
+                      iconClassName="w-6 h-6"
+                      className="text-2xl min-w-3xs"
+                    />
+                  </DragAndDrop.Item>
+                ))}
+            </DragAndDrop.DropZone>
+            {i < contentLevels.length - 1 && (
+              <Divider direction="horizontal" color="accent" />
+            )}
+          </>
+        ))}
+      </DragAndDrop>
+      <Modal modalId="add-content-modal">
+        <PriorityForm
+          title="新しいコンテンツを追加"
+          label="コンテンツ"
+          contentType="word"
+          onSubmit={handleAddContent}
+        />
+      </Modal>
+      <Modal modalId="edit-content-modal">
+        <PriorityForm
+          title="コンテンツを編集"
+          label="コンテンツ"
+          contentType="word"
+          onSubmit={handleEditContent}
+          placeholder={
+            editContent
+              ? { content: editContent.content, level: editContent.level }
+              : undefined
+          }
+        />
+      </Modal>
+    </>
+  );
+};
+
+export default PriorityContent;
