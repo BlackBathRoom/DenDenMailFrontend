@@ -14,7 +14,7 @@ export const useModal = (modal_id: HTMLElement['id']) => {
     const modalElement = document.getElementById(modal_id);
     if (!isModalElement(modalElement)) {
       throw new Error(
-        `Element with id "${modal_id}" is not a valid modal element.`
+        `Element with id "${modal_id}" is not a valid modal element. A valid modal element should be a <dialog> element or have both "showModal" and "close" methods.`
       );
     }
 
