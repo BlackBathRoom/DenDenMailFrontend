@@ -40,6 +40,7 @@ type Props = {
   name?: string;
   className?: string;
   forceState?: ForceState;
+  defaultChecked?: boolean;
 };
 
 const Collapse: React.FC<Props> & {
@@ -51,6 +52,7 @@ const Collapse: React.FC<Props> & {
   name = 'collapse',
   forceState,
   className = '',
+  defaultChecked = false,
 }) => {
   return (
     <div
@@ -61,7 +63,7 @@ const Collapse: React.FC<Props> & {
         className
       )}
     >
-      <input type="checkbox" name={name} />
+      <input type="checkbox" name={name} defaultChecked={defaultChecked} />
       {children}
     </div>
   );
