@@ -23,21 +23,30 @@ const DropZone: React.FC<Props> = ({
   },
 }) => {
   const [isDragOver, setIsDragOver] = useState(false);
+  const dragCounter = useRef(0);
+
+  const handleDragEnter = (event: React.DragEvent) => {
+    event.preventDefault();
+    dragCounter.current += 1;
+    setIsDragOver(true);
+  };
 
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
-    setIsDragOver(true);
   };
 
   const handleDragLeave = (event: React.DragEvent) => {
-    if (event.currentTarget === event.target) {
+    event.preventDefault();
+    dragCounter.current -= 1;
+    if (dragCounter.current <= 0) {
       setIsDragOver(false);
     }
   };
 
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
+    dragCounter.current = 0;
     setIsDragOver(false);
     const itemId = event.dataTransfer.getData('text/plain');
     if (itemId) {
