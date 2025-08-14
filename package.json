@@ -30,7 +30,7 @@
     "@storybook/addon-vitest": "^9.1.1",
     "@storybook/react-vite": "^9.1.2",
     "@tailwindcss/vite": "^4.1.11",
-    "@tanstack/react-router-devtools": "^1.130.13",
+    "@tanstack/react-router-devtools": "^1.131.7",
     "@tanstack/router-plugin": "^1.130.2",
     "@types/node": "^24.2.0",
     "@types/react": "^19.1.10",
