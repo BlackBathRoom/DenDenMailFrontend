@@ -78,33 +78,37 @@ const PriorityContent: React.FC<Props> = ({ initialContents = [] }) => {
         </button>
       </div>
       <DragAndDrop className="flex flex-col gap-5">
-        {contentLevels.map((level, i) => (
-          <>
-            <DragAndDrop.DropZone
-              key={level}
-              className="flex flex-col gap-5 p-4 border rounded-lg"
-              onDrop={(itemId: string) => handleDrop(itemId, level)}
-            >
-              {contents
-                .filter((content) => content.level === level)
-                .map((content) => (
-                  <DragAndDrop.Item key={content.id} itemId={content.id}>
-                    <PriorityItem
-                      itemName={content.content}
-                      itemId={content.id}
-                      onClickDelete={handleDelete}
-                      onClickEdit={handleEdit}
-                      iconClassName="w-6 h-6"
-                      className="text-2xl min-w-3xs"
-                    />
-                  </DragAndDrop.Item>
-                ))}
-            </DragAndDrop.DropZone>
-            {i < contentLevels.length - 1 && (
-              <Divider direction="horizontal" color="accent" />
-            )}
-          </>
-        ))}
+        {contentLevels
+          .sort((a, b) => b - a)
+          .map((level, i) => (
+            <>
+              <div key={level} className="flex flex-col gap-2 items-start">
+                <h4 className="text-lg font-semibold">レベル {level}</h4>
+                <DragAndDrop.DropZone
+                  className="flex flex-col gap-5 p-4 border rounded-lg"
+                  onDrop={(itemId: string) => handleDrop(itemId, level)}
+                >
+                  {contents
+                    .filter((content) => content.level === level)
+                    .map((content) => (
+                      <DragAndDrop.Item key={content.id} itemId={content.id}>
+                        <PriorityItem
+                          itemName={content.content}
+                          itemId={content.id}
+                          onClickDelete={handleDelete}
+                          onClickEdit={handleEdit}
+                          iconClassName="w-6 h-6"
+                          className="text-2xl min-w-3xs"
+                        />
+                      </DragAndDrop.Item>
+                    ))}
+                </DragAndDrop.DropZone>
+              </div>
+              {i < contentLevels.length - 1 && (
+                <Divider direction="horizontal" color="accent" />
+              )}
+            </>
+          ))}
       </DragAndDrop>
       <Modal modalId="add-content-modal">
         <PriorityForm
