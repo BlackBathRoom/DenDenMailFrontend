@@ -4,6 +4,7 @@ type Props = {
   title: string;
   label: string;
   contentType: 'word' | 'address';
+  mode: 'add' | 'edit';
   onSubmit: (word: string, level: number) => void;
   placeholder?: {
     content: string;
@@ -28,6 +29,7 @@ const PriorityForm: React.FC<Props> = ({
   title,
   label,
   contentType,
+  mode,
   onSubmit,
   placeholder,
 }) => {
@@ -89,7 +91,7 @@ const PriorityForm: React.FC<Props> = ({
           </div>
         </div>
         <button type="submit" className="btn btn-primary">
-          追加
+          {mode === 'add' ? '追加' : '更新'}
         </button>
       </div>
     </form>

@@ -132,6 +132,7 @@ const PriorityContent: React.FC<Props> = ({
           title={`新しい${contentName}を追加`}
           label={contentName}
           contentType={contentType}
+          mode="add"
           onSubmit={handleAddContent}
         />
       </Modal>
@@ -140,6 +141,7 @@ const PriorityContent: React.FC<Props> = ({
           title={`${contentName}を編集`}
           label={contentName}
           contentType={contentType}
+          mode="edit"
           onSubmit={handleEditContent}
           placeholder={
             editContent

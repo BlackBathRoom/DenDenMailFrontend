@@ -21,6 +21,12 @@ const meta: Meta<typeof PriorityForm> = {
       options: ['word', 'address'],
       description: 'コンテンツの種類',
     },
+    // 追加: mode の操作を可能に
+    mode: {
+      control: { type: 'inline-radio' },
+      options: ['add', 'edit'],
+      description: 'フォームのモード（追加 or 編集）',
+    },
     onSubmit: {
       action: 'submitted',
       description: 'フォーム送信時のイベント',
@@ -41,6 +47,7 @@ export const Default: Story = {
     title: '新しい単語を追加',
     label: '単語',
     contentType: 'word',
+    mode: 'add',
     onSubmit: (word, level) => console.log(`追加: ${word} (レベル: ${level})`),
   },
 };
@@ -50,6 +57,7 @@ export const WordEntry: Story = {
     title: '優先単語登録',
     label: '単語',
     contentType: 'word',
+    mode: 'add',
     onSubmit: (word, level) =>
       console.log(`単語追加: ${word} (レベル: ${level})`),
   },
@@ -60,6 +68,7 @@ export const AddressEntry: Story = {
     title: 'メールアドレス追加',
     label: 'メールアドレス',
     contentType: 'address',
+    mode: 'add',
     onSubmit: (address, level) =>
       console.log(`アドレス追加: ${address} (レベル: ${level})`),
   },
@@ -70,6 +79,7 @@ export const WithPlaceholder: Story = {
     title: '単語編集',
     label: '単語',
     contentType: 'word',
+    mode: 'edit',
     placeholder: {
       content: 'サンプル単語',
       level: 2,
@@ -83,6 +93,7 @@ export const WithAlerts: Story = {
     title: '新しい単語を追加',
     label: '単語',
     contentType: 'word',
+    mode: 'add',
     onSubmit: (word, level) => {
       alert(`追加されました！\n単語: ${word}\nレベル: ${level}`);
     },
@@ -94,6 +105,7 @@ export const FormValidation: Story = {
     title: 'バリデーション確認',
     label: '単語',
     contentType: 'word',
+    mode: 'add',
     onSubmit: (word, level) => {
       if (!word || word.length < 1) {
         alert('エラー: 単語を入力してください');
@@ -115,6 +127,7 @@ export const MultipleContentTypes: Story = {
         title="単語追加フォーム"
         label="単語"
         contentType="word"
+        mode="add"
         onSubmit={(word: string, level: number) =>
           console.log(`単語: ${word}, レベル: ${level}`)
         }
@@ -124,6 +137,7 @@ export const MultipleContentTypes: Story = {
         title="メールアドレス追加フォーム"
         label="メールアドレス"
         contentType="address"
+        mode="add"
         onSubmit={(address: string, level: number) =>
           console.log(`アドレス: ${address}, レベル: ${level}`)
         }
@@ -140,6 +154,7 @@ export const EditMode: Story = {
         title="単語を編集"
         label="単語"
         contentType="word"
+        mode="edit"
         placeholder={{
           content: '既存の単語',
           level: 3,
@@ -161,6 +176,7 @@ export const FormStates: Story = {
           title="新しい単語"
           label="単語"
           contentType="word"
+          mode="add"
           onSubmit={(word: string, level: number) =>
             console.log(`新規: ${word} (${level})`)
           }
@@ -172,6 +188,7 @@ export const FormStates: Story = {
           title="単語編集"
           label="単語"
           contentType="word"
+          mode="edit"
           placeholder={{
             content: '編集対象',
             level: 1,
