@@ -13,10 +13,16 @@ type Content = {
 };
 
 type Props = {
+  contentName: string;
+  contentType: 'word' | 'address';
   initialContents: Content[];
 };
 
-const PriorityContent: React.FC<Props> = ({ initialContents = [] }) => {
+const PriorityContent: React.FC<Props> = ({
+  contentName,
+  contentType,
+  initialContents = [],
+}) => {
   const [contents, setContents] = useState<Content[]>(initialContents);
   const [editContent, setEditContent] = useState<Content | null>(null);
   const { openModal: openAddModal, closeModal: closeAddModal } =
@@ -74,7 +80,7 @@ const PriorityContent: React.FC<Props> = ({ initialContents = [] }) => {
     <>
       <div className="mb-4">
         <button className="btn btn-primary" onClick={openAddModal}>
-          + 新しいコンテンツを追加
+          + 新しい{contentName}を追加
         </button>
       </div>
       <DragAndDrop className="flex flex-col gap-5">
@@ -112,17 +118,17 @@ const PriorityContent: React.FC<Props> = ({ initialContents = [] }) => {
       </DragAndDrop>
       <Modal modalId="add-content-modal">
         <PriorityForm
-          title="新しいコンテンツを追加"
-          label="コンテンツ"
-          contentType="word"
+          title={`新しい${contentName}を追加`}
+          label={contentName}
+          contentType={contentType}
           onSubmit={handleAddContent}
         />
       </Modal>
       <Modal modalId="edit-content-modal">
         <PriorityForm
-          title="コンテンツを編集"
-          label="コンテンツ"
-          contentType="word"
+          title={`${contentName}を編集`}
+          label={contentName}
+          contentType={contentType}
           onSubmit={handleEditContent}
           placeholder={
             editContent

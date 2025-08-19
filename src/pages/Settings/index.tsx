@@ -29,7 +29,11 @@ const Settings: React.FC = () => {
             優先辞書登録
           </Collapse.Title>
           <Collapse.Content className="p-4">
-            <PriorityContent initialContents={_contents} />
+            <PriorityContent
+              contentName="優先辞書"
+              contentType="word"
+              initialContents={_contents}
+            />
           </Collapse.Content>
         </Collapse>
       </div>
