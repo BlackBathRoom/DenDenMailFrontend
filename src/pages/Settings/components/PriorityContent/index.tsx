@@ -25,10 +25,18 @@ const PriorityContent: React.FC<Props> = ({
 }) => {
   const [contents, setContents] = useState<Content[]>(initialContents);
   const [editContent, setEditContent] = useState<Content | null>(null);
-  const { openModal: openAddModal, closeModal: closeAddModal } =
-    useModal('add-content-modal');
-  const { openModal: openEditModal, closeModal: closeEditModal } =
-    useModal('edit-content-modal');
+
+  const modalIds = {
+    add: `add-${contentType}-modal`,
+    edit: `edit-${contentType}-modal`,
+  };
+
+  const { openModal: openAddModal, closeModal: closeAddModal } = useModal(
+    modalIds.add
+  );
+  const { openModal: openEditModal, closeModal: closeEditModal } = useModal(
+    modalIds.edit
+  );
 
   const contentLevels = [
     ...new Set(contents.map((content) => content.level)),
@@ -83,15 +91,18 @@ const PriorityContent: React.FC<Props> = ({
           + 新しい{contentName}を追加
         </button>
       </div>
-      <DragAndDrop className="flex flex-col gap-5">
+      <DragAndDrop className="flex flex-col gap-5 w-full">
         {contentLevels
           .sort((a, b) => b - a)
           .map((level, i) => (
             <>
-              <div key={level} className="flex flex-col gap-2 items-start">
+              <div
+                key={level}
+                className="flex flex-col gap-2 items-start w-full"
+              >
                 <h4 className="text-lg font-semibold">レベル {level}</h4>
                 <DragAndDrop.DropZone
-                  className="flex flex-col gap-5 p-4 border rounded-lg"
+                  className="flex flex-col gap-5 p-4 border rounded-lg w-full max-w-xl"
                   onDrop={(itemId: string) => handleDrop(itemId, level)}
                 >
                   {contents
@@ -104,7 +115,7 @@ const PriorityContent: React.FC<Props> = ({
                           onClickDelete={handleDelete}
                           onClickEdit={handleEdit}
                           iconClassName="w-6 h-6"
-                          className="text-2xl min-w-3xs"
+                          className="text-2xl w-full"
                         />
                       </DragAndDrop.Item>
                     ))}
@@ -116,7 +127,7 @@ const PriorityContent: React.FC<Props> = ({
             </>
           ))}
       </DragAndDrop>
-      <Modal modalId="add-content-modal">
+      <Modal modalId={modalIds.add}>
         <PriorityForm
           title={`新しい${contentName}を追加`}
           label={contentName}
@@ -124,7 +135,7 @@ const PriorityContent: React.FC<Props> = ({
           onSubmit={handleAddContent}
         />
       </Modal>
-      <Modal modalId="edit-content-modal">
+      <Modal modalId={modalIds.edit}>
         <PriorityForm
           title={`${contentName}を編集`}
           label={contentName}
