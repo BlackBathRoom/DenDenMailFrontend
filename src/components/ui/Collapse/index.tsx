@@ -63,7 +63,7 @@ const Collapse: React.FC<Props> & {
         className
       )}
     >
-      <input type="checkbox" name={name} defaultChecked={defaultChecked} />
+      <input type="radio" name={name} defaultChecked={defaultChecked} />
       {children}
     </div>
   );
