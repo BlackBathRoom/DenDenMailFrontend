@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '../../../utils/cn';
 
 export type Props = {
@@ -29,15 +29,10 @@ const DropZone: React.FC<Props> = ({
 
   const handleDragEnter = (event: React.DragEvent) => {
     event.preventDefault();
-    if (isNested) {
-      const target = event.target as HTMLElement;
-      const currentTarget = event.currentTarget as HTMLElement;
-      if (target === currentTarget || !target.closest('[data-dropzone]')) {
-        dragCounter.current += 1;
-        setIsDragOver(true);
-      }
-    } else {
-      dragCounter.current += 1;
+    event.stopPropagation();
+    // ゾーン内の子要素間移動でも dragenter は複数回発火するためカウントで管理
+    dragCounter.current += 1;
+    if (dragCounter.current === 1) {
       setIsDragOver(true);
     }
   };
@@ -50,16 +45,11 @@ const DropZone: React.FC<Props> = ({
 
   const handleDragLeave = (event: React.DragEvent) => {
     event.preventDefault();
-
-    const currentTarget = event.currentTarget as HTMLElement;
-    const relatedTarget = event.relatedTarget as HTMLElement;
-
-    if (!relatedTarget || !currentTarget.contains(relatedTarget)) {
-      dragCounter.current -= 1;
-      if (dragCounter.current <= 0) {
-        dragCounter.current = 0;
-        setIsDragOver(false);
-      }
+    event.stopPropagation();
+    // 子要素間の移動でも dragleave は発火するので対称にデクリメント
+    dragCounter.current = Math.max(0, dragCounter.current - 1);
+    if (dragCounter.current === 0) {
+      setIsDragOver(false);
     }
   };
 
@@ -73,6 +63,22 @@ const DropZone: React.FC<Props> = ({
       onDrop(itemId);
     }
   };
+
+  // ドラッグが画面外や他領域で終了/ドロップされた場合でも必ずリセットする
+  useEffect(() => {
+    const reset = () => {
+      if (dragCounter.current !== 0 || isDragOver) {
+        dragCounter.current = 0;
+        setIsDragOver(false);
+      }
+    };
+    window.addEventListener('dragend', reset);
+    window.addEventListener('drop', reset);
+    return () => {
+      window.removeEventListener('dragend', reset);
+      window.removeEventListener('drop', reset);
+    };
+  }, [isDragOver]);
 
   return (
     <div

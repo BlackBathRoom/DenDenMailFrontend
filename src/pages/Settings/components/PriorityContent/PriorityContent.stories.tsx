@@ -7,7 +7,21 @@ const meta: Meta<typeof PriorityContent> = {
   parameters: {
     layout: 'padded',
   },
+  args: {
+    // 追加された必須propsのデフォルト
+    contentName: '優先コンテンツ',
+    contentType: 'word',
+  },
   argTypes: {
+    contentName: {
+      control: 'text',
+      description: 'フォームやラベルに使われる名称（例: 優先辞書）',
+    },
+    contentType: {
+      control: { type: 'inline-radio' },
+      options: ['word', 'address'],
+      description: 'コンテンツの種類',
+    },
     initialContents: {
       control: 'object',
       description: '初期コンテンツの配列',
@@ -90,7 +104,7 @@ export const WithInteraction: Story = {
 };
 
 export const WithFormDemo: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <div className="space-y-4">
         <div className="bg-blue-50 p-4 rounded-lg">
@@ -100,14 +114,14 @@ export const WithFormDemo: Story = {
             新しいコンテンツを追加」ボタンをクリックしてフォームを試してください
           </p>
         </div>
-        <PriorityContent initialContents={[]} />
+        <PriorityContent {...args} initialContents={[]} />
       </div>
     );
   },
 };
 
 export const InteractiveDemo: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <div className="space-y-4">
         <div className="bg-gray-100 p-4 rounded-lg">
@@ -119,7 +133,7 @@ export const InteractiveDemo: Story = {
             <li>• 削除ボタン（ゴミ箱）をクリックで削除</li>
           </ul>
         </div>
-        <PriorityContent initialContents={sampleContents} />
+        <PriorityContent {...args} initialContents={sampleContents} />
         <div className="bg-blue-50 p-3 rounded text-sm">
           コンポーネント内でステート管理されています
         </div>
