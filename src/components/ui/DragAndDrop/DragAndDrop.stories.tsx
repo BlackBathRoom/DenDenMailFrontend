@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+
 import DragAndDrop from './index';
 
 const meta: Meta<typeof DragAndDrop> = {
@@ -42,33 +43,33 @@ const BasicDragDropTest = () => {
   const targetItems = items.filter((item) => item.zone === 'target');
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold text-center">
+    <div className="mx-auto max-w-4xl space-y-6">
+      <h2 className="text-center text-2xl font-bold">
         ドラッグ&ドロップ テスト
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* ソースエリア */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-center">
+          <h3 className="mb-4 text-center text-lg font-semibold">
             📦 ソースエリア
           </h3>
           <DragAndDrop.DropZone
             onDrop={(itemId) => moveItem(itemId, 'source')}
-            className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 min-h-[200px]"
+            className="min-h-[200px] rounded-lg border-2 border-blue-200 bg-blue-50 p-4"
           >
             <div className="space-y-2">
               {sourceItems.map((item) => (
                 <DragAndDrop.Item
                   key={item.id}
                   itemId={item.id}
-                  className="bg-white p-3 rounded border shadow-sm hover:shadow-md transition-shadow"
+                  className="rounded border bg-white p-3 shadow-sm transition-shadow hover:shadow-md"
                 >
                   {item.content}
                 </DragAndDrop.Item>
               ))}
               {sourceItems.length === 0 && (
-                <div className="text-gray-500 text-center py-8">
+                <div className="py-8 text-center text-gray-500">
                   アイテムをここにドロップ
                 </div>
               )}
@@ -78,25 +79,25 @@ const BasicDragDropTest = () => {
 
         {/* ターゲットエリア */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-center">
+          <h3 className="mb-4 text-center text-lg font-semibold">
             🎯 ターゲットエリア
           </h3>
           <DragAndDrop.DropZone
             onDrop={(itemId) => moveItem(itemId, 'target')}
-            className="bg-green-50 border-2 border-green-200 rounded-lg p-4 min-h-[200px]"
+            className="min-h-[200px] rounded-lg border-2 border-green-200 bg-green-50 p-4"
           >
             <div className="space-y-2">
               {targetItems.map((item) => (
                 <DragAndDrop.Item
                   key={item.id}
                   itemId={item.id}
-                  className="bg-white p-3 rounded border shadow-sm hover:shadow-md transition-shadow"
+                  className="rounded border bg-white p-3 shadow-sm transition-shadow hover:shadow-md"
                 >
                   {item.content}
                 </DragAndDrop.Item>
               ))}
               {targetItems.length === 0 && (
-                <div className="text-gray-500 text-center py-8">
+                <div className="py-8 text-center text-gray-500">
                   アイテムをここにドロップ
                 </div>
               )}
@@ -106,8 +107,8 @@ const BasicDragDropTest = () => {
       </div>
 
       {/* 操作履歴 */}
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h4 className="font-semibold mb-2">📝 操作履歴</h4>
+      <div className="rounded-lg bg-gray-50 p-4">
+        <h4 className="mb-2 font-semibold">📝 操作履歴</h4>
         <div className="max-h-32 overflow-y-auto">
           {dropHistory.length === 0 ? (
             <p className="text-gray-500">まだ操作がありません</p>
@@ -118,7 +119,7 @@ const BasicDragDropTest = () => {
               .map((entry, index) => (
                 <div
                   key={index}
-                  className="text-sm py-1 border-b border-gray-200 last:border-b-0"
+                  className="border-b border-gray-200 py-1 text-sm last:border-b-0"
                 >
                   {entry}
                 </div>
@@ -150,7 +151,7 @@ const BasicDragDropTest = () => {
             ]);
             setDropHistory([]);
           }}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          className="rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
         >
           リセット
         </button>
@@ -202,25 +203,25 @@ const KanbanTest = () => {
   ];
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold text-center">カンバンボード テスト</h2>
+    <div className="mx-auto max-w-6xl space-y-6">
+      <h2 className="text-center text-2xl font-bold">カンバンボード テスト</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {columns.map((column) => (
           <div key={column.id}>
-            <h3 className="text-lg font-semibold mb-4 text-center">
+            <h3 className="mb-4 text-center text-lg font-semibold">
               {column.title}
             </h3>
             <DragAndDrop.DropZone
               onDrop={(taskId) => moveTask(taskId, column.id)}
-              className={`${column.bgColor} border-2 ${column.borderColor} rounded-lg p-4 min-h-[300px]`}
+              className={`${column.bgColor} border-2 ${column.borderColor} min-h-[300px] rounded-lg p-4`}
             >
               <div className="space-y-3">
                 {getTasksByStatus(column.id).map((task) => (
                   <DragAndDrop.Item
                     key={task.id}
                     itemId={task.id}
-                    className="bg-white p-3 rounded-lg border shadow-sm hover:shadow-md transition-shadow cursor-grab"
+                    className="cursor-grab rounded-lg border bg-white p-3 shadow-sm transition-shadow hover:shadow-md"
                   >
                     <div>
                       <h4 className="font-medium">{task.title}</h4>
@@ -229,7 +230,7 @@ const KanbanTest = () => {
                   </DragAndDrop.Item>
                 ))}
                 {getTasksByStatus(column.id).length === 0 && (
-                  <div className="text-gray-500 text-center py-8 border-2 border-dashed border-gray-300 rounded">
+                  <div className="rounded border-2 border-dashed border-gray-300 py-8 text-center text-gray-500">
                     タスクをここにドロップ
                   </div>
                 )}
@@ -240,11 +241,11 @@ const KanbanTest = () => {
       </div>
 
       {/* 統計 */}
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h4 className="font-semibold mb-2">📊 統計</h4>
+      <div className="rounded-lg bg-gray-50 p-4">
+        <h4 className="mb-2 font-semibold">📊 統計</h4>
         <div className="grid grid-cols-3 gap-4 text-center">
           {columns.map((column) => (
-            <div key={column.id} className="bg-white p-2 rounded">
+            <div key={column.id} className="rounded bg-white p-2">
               <div className="text-sm text-gray-600">{column.title}</div>
               <div className="text-xl font-bold">
                 {getTasksByStatus(column.id).length}
@@ -315,13 +316,9 @@ const NestedDropZoneTest = () => {
       <div key={item.id} style={{ paddingLeft: `${paddingLeft}px` }}>
         <DragAndDrop.Item
           itemId={item.id}
-          className={`
-            bg-white p-2 mb-1 rounded border shadow-sm hover:shadow-md transition-shadow
-            flex items-center gap-2 cursor-grab
-            ${isFolder ? 'bg-blue-50 border-blue-200' : 'bg-gray-50'}
-          `}
+          className={`mb-1 flex cursor-grab items-center gap-2 rounded border bg-white p-2 shadow-sm transition-shadow hover:shadow-md ${isFolder ? 'border-blue-200 bg-blue-50' : 'bg-gray-50'} `}
         >
-          <div className="flex items-center gap-2 flex-1">
+          <div className="flex flex-1 items-center gap-2">
             {isFolder && (
               <button
                 onClick={(e) => {
@@ -345,18 +342,18 @@ const NestedDropZoneTest = () => {
 
         {/* ネストされたドロップゾーン（フォルダ用） */}
         {isFolder && isExpanded && (
-          <div className="ml-4 mt-1">
+          <div className="mt-1 ml-4">
             <DragAndDrop.DropZone
               isNested={true}
               onDrop={(itemId) => moveItem(itemId, item.id)}
-              className="border-2 border-dashed border-blue-200 rounded p-2 min-h-[60px] bg-blue-25"
+              className="bg-blue-25 min-h-[60px] rounded border-2 border-dashed border-blue-200 p-2"
             >
               <div className="space-y-1">
                 {childItems.map((childItem) =>
                   renderItem(childItem, level + 1)
                 )}
                 {childItems.length === 0 && (
-                  <div className="text-gray-400 text-center py-2 text-sm">
+                  <div className="py-2 text-center text-sm text-gray-400">
                     フォルダは空です
                   </div>
                 )}
@@ -369,14 +366,14 @@ const NestedDropZoneTest = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold text-center">
+    <div className="mx-auto max-w-4xl space-y-6">
+      <h2 className="text-center text-2xl font-bold">
         ネストされたドロップゾーン（ファイルエクスプローラー風）
       </h2>
 
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h4 className="font-semibold mb-2">📝 使い方</h4>
-        <ul className="text-sm text-gray-600 space-y-1">
+      <div className="rounded-lg bg-gray-50 p-4">
+        <h4 className="mb-2 font-semibold">📝 使い方</h4>
+        <ul className="space-y-1 text-sm text-gray-600">
           <li>• ファイルやフォルダをドラッグして移動できます</li>
           <li>• フォルダアイコンをクリックで開閉できます</li>
           <li>• フォルダ内の点線エリアにドロップで中に移動</li>
@@ -384,21 +381,21 @@ const NestedDropZoneTest = () => {
         </ul>
       </div>
 
-      <DragAndDrop className="bg-white border rounded-lg p-4">
+      <DragAndDrop className="rounded-lg border bg-white p-4">
         {/* ルートレベルのドロップゾーン */}
         <DragAndDrop.DropZone
           onDrop={(itemId) => moveItem(itemId, null)}
-          className="border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[400px]"
+          className="min-h-[400px] rounded-lg border-2 border-dashed border-gray-300 p-4"
         >
           <div className="space-y-2">
-            <h3 className="font-semibold text-gray-700 mb-4">
+            <h3 className="mb-4 font-semibold text-gray-700">
               🗂️ ファイルエクスプローラー
             </h3>
 
             {getRootItems().map((item) => renderItem(item))}
 
             {getRootItems().length === 0 && (
-              <div className="text-gray-500 text-center py-8">
+              <div className="py-8 text-center text-gray-500">
                 アイテムをここにドロップ
               </div>
             )}
@@ -407,20 +404,20 @@ const NestedDropZoneTest = () => {
       </DragAndDrop>
 
       {/* 統計表示 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-blue-50 p-4 rounded-lg text-center">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="rounded-lg bg-blue-50 p-4 text-center">
           <div className="text-2xl font-bold text-blue-600">
             {items.filter((item) => item.type === 'folder').length}
           </div>
           <div className="text-sm text-blue-600">フォルダ</div>
         </div>
-        <div className="bg-green-50 p-4 rounded-lg text-center">
+        <div className="rounded-lg bg-green-50 p-4 text-center">
           <div className="text-2xl font-bold text-green-600">
             {items.filter((item) => item.type === 'file').length}
           </div>
           <div className="text-sm text-green-600">ファイル</div>
         </div>
-        <div className="bg-purple-50 p-4 rounded-lg text-center">
+        <div className="rounded-lg bg-purple-50 p-4 text-center">
           <div className="text-2xl font-bold text-purple-600">
             {items.filter((item) => item.parent === null).length}
           </div>
@@ -472,7 +469,7 @@ const NestedDropZoneTest = () => {
             ]);
             setExpandedFolders(['item1', 'item4']);
           }}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          className="rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
         >
           リセット
         </button>
@@ -503,13 +500,13 @@ export const Simple: Story = {
         <h3 className="mb-2 font-semibold">ドラッグ可能なアイテム:</h3>
         <DragAndDrop.Item
           itemId="simple1"
-          className="bg-blue-100 p-2 rounded mb-2 inline-block"
+          className="mb-2 inline-block rounded bg-blue-100 p-2"
         >
           シンプルなアイテム 1
         </DragAndDrop.Item>
         <DragAndDrop.Item
           itemId="simple2"
-          className="bg-green-100 p-2 rounded mb-2 inline-block ml-2"
+          className="mb-2 ml-2 inline-block rounded bg-green-100 p-2"
         >
           シンプルなアイテム 2
         </DragAndDrop.Item>

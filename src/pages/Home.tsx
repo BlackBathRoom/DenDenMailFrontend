@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import Divider from '../components/layout/Divider';
-import Panel from '../components/ui/Panel';
-import { cn } from '../utils/cn';
+
+import Divider from '@/components/layout/Divider';
+import Panel from '@/components/ui/Panel';
+import { cn } from '@/utils/cn';
 
 const demoVendors = [
   { name: 'Gmail', id: 1, icon: 'G' },
@@ -67,32 +68,32 @@ const Home: React.FC = () => {
   const [selectedMail, setSelectedMail] = useState<Mail | null>(null);
 
   return (
-    <div className="flex gap-3 items-start w-full h-full">
-      <Panel className="flex flex-col gap-5 w-fit h-full px-3 py-5">
+    <div className="flex h-full w-full items-start gap-3">
+      <Panel className="flex h-full w-fit flex-col gap-5 px-3 py-5">
         {demoVendors.map((vendor) => (
           <button
             key={vendor.id}
-            className="rounded-lg bg-base-100 w-16 h-16 flex items-center justify-center"
+            className="flex h-16 w-16 items-center justify-center rounded-lg bg-base-100"
             onClick={() => setSelectedVendor(vendor)}
           >
             <span className="text-3xl">{vendor.icon}</span>
           </button>
         ))}
-        <div className="rounded-full bg-base-100 w-16 h-16 flex items-center justify-center">
-          <span className="text-5xl pb-3">+</span>
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-base-100">
+          <span className="pb-3 text-5xl">+</span>
         </div>
       </Panel>
-      <Panel className="flex gap-3 w-fit h-full px-5">
-        <div className="flex flex-col items-center min-w-60">
-          <h3 className="text-4xl font-bold my-5 py-3 bg-base-100/70 rounded-lg w-full text-center">
+      <Panel className="flex h-full w-fit gap-3 px-5">
+        <div className="flex min-w-60 flex-col items-center">
+          <h3 className="my-5 w-full rounded-lg bg-base-100/70 py-3 text-center text-4xl font-bold">
             {selectedVendor.name}
           </h3>
-          <ul className="flex flex-col w-full">
+          <ul className="flex w-full flex-col">
             {demoFolders.map((folder, i) => (
               <li className="w-full" key={folder.id}>
                 <button
                   className={cn(
-                    'btn btn-ghost w-full text-3xl rounded py-3',
+                    'btn w-full rounded py-3 text-3xl btn-ghost',
                     selectedFolder.id === folder.id && 'bg-base-100/40'
                   )}
                   onClick={() => setSelectedFolder(folder)}
@@ -107,24 +108,24 @@ const Home: React.FC = () => {
           </ul>
         </div>
         <Divider direction="vertical" color="primary" />
-        <div className="flex flex-col min-w-80">
-          <h3 className="text-4xl font-bold my-5 py-3 bg-base-100/70 rounded-lg w-full text-center">
+        <div className="flex min-w-80 flex-col">
+          <h3 className="my-5 w-full rounded-lg bg-base-100/70 py-3 text-center text-4xl font-bold">
             {selectedFolder.name}
           </h3>
-          <ul className="flex flex-col rounded-sm bg-base-100 max-h-full overflow-y-auto">
+          <ul className="flex max-h-full flex-col overflow-y-auto rounded-sm bg-base-100">
             {demoMails.map((mail, i) => (
               <li key={mail.id}>
                 <button
-                  className="w-full flex flex-col px-4 py-2 cursor-pointer"
+                  className="flex w-full cursor-pointer flex-col px-4 py-2"
                   onClick={() => setSelectedMail(mail)}
                 >
-                  <p className="text-sm text-primary text-end">
+                  <p className="text-end text-sm text-primary">
                     {mail.receivedAt.time}
                   </p>
-                  <h4 className="text-xl font-semibold text-start">
+                  <h4 className="text-start text-xl font-semibold">
                     {mail.subject}
                   </h4>
-                  <p className="text-sm text-primary text-start">
+                  <p className="text-start text-sm text-primary">
                     {mail.sender_mail}
                   </p>
                 </button>
@@ -137,8 +138,8 @@ const Home: React.FC = () => {
         </div>
       </Panel>
       {selectedMail && (
-        <Panel className="flex-1 w-full">
-          <div className="flex flex-col items-start gap-3 mb-5 px-10 py-4">
+        <Panel className="w-full flex-1">
+          <div className="mb-5 flex flex-col items-start gap-3 px-10 py-4">
             <h2 className="text-3xl font-bold">{selectedMail.subject}</h2>
             <p className="text-lg">From: {selectedMail.sender_mail}</p>
             <p className="text-lg">
@@ -146,7 +147,7 @@ const Home: React.FC = () => {
               {selectedMail.receivedAt.time}
             </p>
           </div>
-          <div className="bg-base-100 px-16 py-10 rounded-b-md">
+          <div className="rounded-b-md bg-base-100 px-16 py-10">
             <p className="text-lg">{selectedMail.content}</p>
           </div>
         </Panel>

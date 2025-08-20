@@ -1,6 +1,7 @@
 import React from 'react';
-import { cn } from '../../../utils/cn';
-import type { ClassMap, Color } from '../../../types/component';
+
+import type { ClassMap, Color } from '@/types/component';
+import { cn } from '@/utils/cn';
 
 type TextDirection = 'start' | 'end';
 

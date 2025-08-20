@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import DragAndDrop from '../../../../components/ui/DragAndDrop';
-import PriorityItem from '../PriorityItem';
-import Divider from '../../../../components/layout/Divider';
-import Modal from '../../../../components/ui/Modal';
+
+import { useModal } from '@/hooks/useModal';
+import Divider from '@/components/layout/Divider';
+import DragAndDrop from '@/components/ui/DragAndDrop';
+import Modal from '@/components/ui/Modal';
+
 import PriorityForm from '../PriorityForm';
-import { useModal } from '../../../../hooks/useModal';
+import PriorityItem from '../PriorityItem';
 
 type Content = {
   id: string;
@@ -91,13 +93,13 @@ const PriorityContent: React.FC<Props> = ({
           + 新しい{contentName}を追加
         </button>
       </div>
-      <DragAndDrop className="flex flex-col gap-5 w-full">
+      <DragAndDrop className="flex w-full flex-col gap-5">
         {contentLevels.map((level, i) => (
           <>
-            <div key={level} className="flex flex-col gap-2 items-start w-full">
+            <div key={level} className="flex w-full flex-col items-start gap-2">
               <h4 className="text-lg font-semibold">レベル {level}</h4>
               <DragAndDrop.DropZone
-                className="flex flex-col gap-5 p-4 border rounded-lg w-full max-w-xl"
+                className="flex w-full max-w-xl flex-col gap-5 rounded-lg border p-4"
                 onDrop={(itemId: string) => handleDrop(itemId, level)}
               >
                 {contents
@@ -110,7 +112,7 @@ const PriorityContent: React.FC<Props> = ({
                         onClickDelete={handleDelete}
                         onClickEdit={handleEdit}
                         iconClassName="w-6 h-6"
-                        className="text-2xl w-full"
+                        className="w-full text-2xl"
                       />
                     </DragAndDrop.Item>
                   ))}

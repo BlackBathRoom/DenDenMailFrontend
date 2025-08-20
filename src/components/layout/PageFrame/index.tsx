@@ -1,4 +1,4 @@
-import Header from '../../ui/Header';
+import Header from '@/components/ui/Header';
 
 type Props = {
   children: React.ReactNode;
@@ -6,9 +6,9 @@ type Props = {
 
 const PageFrame: React.FC<Props> = ({ children }) => {
   return (
-    <div className="flex flex-col gap-5 px-7 py-5 h-dvh w-full max-h-dvh overflow-y-hidden">
+    <div className="flex h-dvh max-h-dvh w-full flex-col gap-5 overflow-y-hidden px-7 py-5">
       <Header />
-      <div className="flex-1 w-full">{children}</div>
+      <div className="w-full flex-1">{children}</div>
     </div>
   );
 };

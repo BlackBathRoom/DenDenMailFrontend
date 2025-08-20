@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+
 import PriorityContent from './index';
 
 const meta: Meta<typeof PriorityContent> = {
@@ -107,8 +108,8 @@ export const WithFormDemo: Story = {
   render: (args) => {
     return (
       <div className="space-y-4">
-        <div className="bg-blue-50 p-4 rounded-lg">
-          <h3 className="font-semibold mb-2">フォーム機能のデモ</h3>
+        <div className="rounded-lg bg-blue-50 p-4">
+          <h3 className="mb-2 font-semibold">フォーム機能のデモ</h3>
           <p className="text-sm">
             「+
             新しいコンテンツを追加」ボタンをクリックしてフォームを試してください
@@ -124,9 +125,9 @@ export const InteractiveDemo: Story = {
   render: (args) => {
     return (
       <div className="space-y-4">
-        <div className="bg-gray-100 p-4 rounded-lg">
-          <h3 className="font-semibold mb-2">操作説明</h3>
-          <ul className="text-sm space-y-1">
+        <div className="rounded-lg bg-gray-100 p-4">
+          <h3 className="mb-2 font-semibold">操作説明</h3>
+          <ul className="space-y-1 text-sm">
             <li>• 「+ 新しいコンテンツを追加」ボタンでコンテンツを追加</li>
             <li>• コンテンツをドラッグして他のレベルに移動できます</li>
             <li>• 編集ボタン（鉛筆）をクリックで編集</li>
@@ -134,7 +135,7 @@ export const InteractiveDemo: Story = {
           </ul>
         </div>
         <PriorityContent {...args} initialContents={sampleContents} />
-        <div className="bg-blue-50 p-3 rounded text-sm">
+        <div className="rounded bg-blue-50 p-3 text-sm">
           コンポーネント内でステート管理されています
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   title: string;
@@ -65,7 +65,7 @@ const PriorityForm: React.FC<Props> = ({
               value={content || ''}
               onChange={(e) => setContent(e.target.value)}
               placeholder={_contentType.placeholder}
-              className="input validator"
+              className="validator input"
               required
               minLength={1}
               title={_contentType.errorMessage}
@@ -81,7 +81,7 @@ const PriorityForm: React.FC<Props> = ({
               value={level || ''}
               onChange={(e) => setLevel(Number(e.target.value))}
               min={1}
-              className="input validator"
+              className="validator input"
               required
               title="レベルは1以上の整数で入力してください"
             />

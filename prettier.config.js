@@ -10,6 +10,9 @@ const config = {
   semi: true,
   singleQuote: true,
   arrowParens: 'always',
+  plugins: ['prettier-plugin-tailwindcss', 'prettier-plugin-organize-imports'],
+  tailwindStylesheet: './src/styles/global.css',
+  tailwindFunctions: ['clsx', 'twMerge', 'cn'],
 };
 
 export default config;

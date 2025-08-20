@@ -10,10 +10,16 @@ import tseslint from 'typescript-eslint';
 import { globalIgnores } from 'eslint/config';
 import prettier from 'eslint-config-prettier';
 import tseslintParser from '@typescript-eslint/parser';
+import importPlugin from 'eslint-plugin-import';
 
 export default tseslint.config(
   [
-    globalIgnores(['dist', 'scripts/template', '.storybook']),
+    globalIgnores([
+      'dist',
+      'scripts/template',
+      '.storybook',
+      'src/routeTree.gen.ts',
+    ]),
     {
       extends: [js.configs.recommended, ...tseslint.configs.recommended],
       files: ['src/**/*.{ts,tsx}'],
@@ -30,12 +36,79 @@ export default tseslint.config(
         react: reactPlugin,
         'react-hooks': reactHooks,
         'react-refresh': reactRefresh,
+        import: importPlugin,
       },
       rules: {
         ...reactHooks.configs.recommended.rules,
         'react-refresh/only-export-components': [
           'warn',
           { allowConstantExport: true },
+        ],
+        'import/order': [
+          'error',
+          {
+            'newlines-between': 'always',
+            groups: [
+              'builtin',
+              'external',
+              'internal',
+              ['parent', 'sibling', 'index'],
+            ],
+            pathGroups: [
+              {
+                pattern: 'react',
+                group: 'external',
+                position: 'before',
+              },
+              {
+                pattern: 'react-dom',
+                group: 'external',
+                position: 'before',
+              },
+              {
+                pattern: 'next',
+                group: 'external',
+                position: 'before',
+              },
+              {
+                pattern: 'next/**',
+                group: 'external',
+                position: 'before',
+              },
+              {
+                pattern: '@/lib/**',
+                group: 'internal',
+                position: 'before',
+              },
+              {
+                pattern: '@/hooks/**',
+                group: 'internal',
+                position: 'before',
+              },
+              {
+                pattern: '@/types/**',
+                group: 'internal',
+                position: 'before',
+              },
+              {
+                pattern: '@/components/**',
+                group: 'internal',
+                position: 'before',
+              },
+              {
+                pattern: '@/**',
+                group: 'internal',
+                position: 'before',
+              },
+            ],
+            pathGroupsExcludedImportTypes: ['react', 'react-dom', 'next'],
+            distinctGroup: false,
+            warnOnUnassignedImports: true,
+            alphabetize: {
+              order: 'asc',
+              orderImportKind: 'asc',
+            },
+          },
         ],
       },
     },
