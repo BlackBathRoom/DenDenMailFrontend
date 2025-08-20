@@ -61,11 +61,11 @@
     "vitest": "^3.2.4"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "eslint --fix"
-    ],
     "src/**/*.{css,ts,tsx,json}": [
       "prettier --write"
+    ],
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix"
     ]
   }
 }
