@@ -23,6 +23,11 @@ export default defineConfig({
       autoCodeSplitting: true,
     }),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(dirname, 'src'),
+    },
+  },
   server: {
     port: 3157,
     host: true,
