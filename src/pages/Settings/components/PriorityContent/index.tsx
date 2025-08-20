@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
+import { useModal } from '@/hooks/useModal';
 import Divider from '@/components/layout/Divider';
 import DragAndDrop from '@/components/ui/DragAndDrop';
 import Modal from '@/components/ui/Modal';
-import { useModal } from '@/hooks/useModal';
 
 import PriorityForm from '../PriorityForm';
 import PriorityItem from '../PriorityItem';
