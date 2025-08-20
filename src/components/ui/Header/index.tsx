@@ -6,7 +6,7 @@ const Header: React.FC = () => {
   const { toggleTheme } = useTheme();
 
   return (
-    <Panel className="w-full h-fit px-13 py-4">
+    <Panel className="h-fit w-full px-13 py-4">
       <div className="flex items-center gap-9">
         <Link to="/" className="text-3xl">
           ホーム

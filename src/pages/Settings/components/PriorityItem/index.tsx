@@ -19,17 +19,17 @@ const PriorityItem = <T extends string | number>({
   className,
 }: Props<T>) => {
   return (
-    <div className={cn('flex justify-between items-center', className)}>
+    <div className={cn('flex items-center justify-between', className)}>
       <span>{itemName}</span>
-      <div className="flex gap-2 h-full">
+      <div className="flex h-full gap-2">
         <button
-          className="btn btn-info btn-square w-fit h-fit p-1"
+          className="btn btn-square h-fit w-fit p-1 btn-info"
           onClick={() => onClickEdit(itemId)}
         >
           <PencilIcon className={iconClassName} />
         </button>
         <button
-          className="btn btn-error btn-square w-fit h-fit p-1"
+          className="btn btn-square h-fit w-fit p-1 btn-error"
           onClick={() => onClickDelete(itemId)}
         >
           <TrashIcon className={iconClassName} />

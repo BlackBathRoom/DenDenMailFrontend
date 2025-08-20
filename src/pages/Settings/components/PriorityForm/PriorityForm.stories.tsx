@@ -122,7 +122,7 @@ export const FormValidation: Story = {
 
 export const MultipleContentTypes: Story = {
   render: () => (
-    <div className="space-y-8 max-w-lg">
+    <div className="max-w-lg space-y-8">
       <PriorityForm
         title="単語追加フォーム"
         label="単語"
@@ -148,7 +148,7 @@ export const MultipleContentTypes: Story = {
 
 export const EditMode: Story = {
   render: () => (
-    <div className="space-y-6 max-w-lg">
+    <div className="max-w-lg space-y-6">
       <h2 className="text-xl font-bold">編集モード</h2>
       <PriorityForm
         title="単語を編集"
@@ -169,9 +169,9 @@ export const EditMode: Story = {
 
 export const FormStates: Story = {
   render: () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
       <div>
-        <h3 className="text-lg font-semibold mb-4">新規追加</h3>
+        <h3 className="mb-4 text-lg font-semibold">新規追加</h3>
         <PriorityForm
           title="新しい単語"
           label="単語"
@@ -183,7 +183,7 @@ export const FormStates: Story = {
         />
       </div>
       <div>
-        <h3 className="text-lg font-semibold mb-4">編集中</h3>
+        <h3 className="mb-4 text-lg font-semibold">編集中</h3>
         <PriorityForm
           title="単語編集"
           label="単語"

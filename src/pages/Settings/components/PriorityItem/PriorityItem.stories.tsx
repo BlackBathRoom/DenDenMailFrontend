@@ -99,7 +99,7 @@ export const WithCustomClass: Story = {
 
 export const AllSizes: Story = {
   render: () => (
-    <div className="space-y-4 w-96">
+    <div className="w-96 space-y-4">
       <PriorityItem
         itemName="極小アイコン"
         itemId="xs"
@@ -142,7 +142,7 @@ export const AllSizes: Story = {
 export const ItemList: Story = {
   render: () => (
     <div className="max-w-md space-y-2">
-      <h3 className="text-lg font-semibold mb-4">優先アイテムリスト</h3>
+      <h3 className="mb-4 text-lg font-semibold">優先アイテムリスト</h3>
       <PriorityItem
         itemName="緊急タスク"
         itemId="urgent-task"
@@ -173,7 +173,7 @@ export const ItemList: Story = {
 
 export const CustomIconStyles: Story = {
   render: () => (
-    <div className="space-y-4 w-96">
+    <div className="w-96 space-y-4">
       <PriorityItem
         itemName="カラーアイコン"
         itemId="colored"

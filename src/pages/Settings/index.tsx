@@ -40,10 +40,10 @@ const _emails = [
 
 const Settings: React.FC = () => {
   return (
-    <Panel className="flex flex-col gap-3 p-5 w-full items-center h-full max-h-[calc(100dvh-129.9px)] overflow-y-auto scrollbar-hidden">
-      <div className="flex flex-col gap-2 items-start w-full max-w-xl">
-        <h2 className="text-4xl font-semibold mb-5">優先度フィルター系</h2>
-        <div className="join join-vertical w-full max-w-xl">
+    <Panel className="scrollbar-hidden flex h-full max-h-[calc(100dvh-129.9px)] w-full flex-col items-center gap-3 overflow-y-auto p-5">
+      <div className="flex w-full max-w-xl flex-col items-start gap-2">
+        <h2 className="mb-5 text-4xl font-semibold">優先度フィルター系</h2>
+        <div className="join-vertical join w-full max-w-xl">
           <Collapse
             icon="arrow"
             name="settings"

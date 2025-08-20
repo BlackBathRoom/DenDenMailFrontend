@@ -48,10 +48,10 @@ const Modal: React.FC<Props> & {
         horizontal !== 'center' && ModalHorizontal[horizontal]
       )}
     >
-      <div className={cn('modal-box w-fit h-fit', className)}>{children}</div>
+      <div className={cn('modal-box h-fit w-fit', className)}>{children}</div>
       {closeOnBackDrop && (
         <form method="dialog" className="modal-backdrop">
-          <button className="w-full h-full" />
+          <button className="h-full w-full" />
         </form>
       )}
     </dialog>
