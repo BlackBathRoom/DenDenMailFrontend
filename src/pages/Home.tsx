@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import Divider from '../components/layout/Divider';
-import Panel from '../components/ui/Panel';
-import { cn } from '../utils/cn';
+
+import Divider from '@/components/layout/Divider';
+import Panel from '@/components/ui/Panel';
+import { cn } from '@/utils/cn';
 
 const demoVendors = [
   { name: 'Gmail', id: 1, icon: 'G' },

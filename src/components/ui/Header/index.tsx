@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
-import { useTheme } from '../../../hooks/useTheme';
-import Panel from '../Panel';
+
+import { useTheme } from '@/hooks/useTheme';
+import Panel from '@/components/ui/Panel';
 
 const Header: React.FC = () => {
   const { toggleTheme } = useTheme();

@@ -1,7 +1,8 @@
 import type React from 'react';
+
 import type { Props as DropZoneProps } from './DropZone';
-import type { Props as ItemProps } from './Item';
 import DropZone from './DropZone';
+import type { Props as ItemProps } from './Item';
 import Item from './Item';
 
 type Props = {

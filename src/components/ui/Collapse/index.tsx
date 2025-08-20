@@ -1,6 +1,8 @@
 import type { ReactElement } from 'react';
-import { cn } from '../../../utils/cn';
-import type { ClassMap } from '../../../types/component';
+
+import type { ClassMap } from '@/types/component';
+import { cn } from '@/utils/cn';
+
 import type { Props as BaseItemProps } from './Item';
 import Item from './Item';
 

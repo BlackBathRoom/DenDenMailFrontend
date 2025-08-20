@@ -1,5 +1,6 @@
-import Collapse from '../../components/ui/Collapse';
-import Panel from '../../components/ui/Panel';
+import Collapse from '@/components/ui/Collapse';
+import Panel from '@/components/ui/Panel';
+
 import PriorityContent from './components/PriorityContent';
 
 const _contents = [

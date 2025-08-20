@@ -1,5 +1,6 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { cn } from '../../../../utils/cn';
+
+import { cn } from '@/utils/cn';
 
 type Props<T extends string | number> = {
   itemName: string;

@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import DragAndDrop from '../../../../components/ui/DragAndDrop';
-import PriorityItem from '../PriorityItem';
-import Divider from '../../../../components/layout/Divider';
-import Modal from '../../../../components/ui/Modal';
+
+import Divider from '@/components/layout/Divider';
+import DragAndDrop from '@/components/ui/DragAndDrop';
+import Modal from '@/components/ui/Modal';
+import { useModal } from '@/hooks/useModal';
+
 import PriorityForm from '../PriorityForm';
-import { useModal } from '../../../../hooks/useModal';
+import PriorityItem from '../PriorityItem';
 
 type Content = {
   id: string;

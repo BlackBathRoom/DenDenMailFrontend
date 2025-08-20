@@ -14,4 +14,4 @@ type ClassMap<K extends string, P extends string> = {
   [key in K]: `${P}-${key}`;
 };
 
-export type { Color, Size, ClassMap };
+export type { ClassMap, Color, Size };

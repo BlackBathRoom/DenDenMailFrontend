@@ -1,7 +1,9 @@
 import type { ReactElement, ReactNode } from 'react';
+
+import type { ClassMap } from '@/types/component';
+import { cn } from '@/utils/cn';
+
 import type { Props as ModalActionProps } from './ModalAction';
-import type { ClassMap } from '../../../types/component';
-import { cn } from '../../../utils/cn';
 import ModalAction from './ModalAction';
 
 type ModalVertical = 'top' | 'middle' | 'bottom';
