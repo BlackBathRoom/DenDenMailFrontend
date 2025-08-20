@@ -43,3 +43,4 @@ coverage/
 # Other
 public/
 scripts/template/
+src/routeTree.gen.ts

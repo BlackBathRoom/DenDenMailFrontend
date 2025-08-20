@@ -10,8 +10,7 @@ const config = {
   semi: true,
   singleQuote: true,
   arrowParens: 'always',
-  // Prettier v3 + ESM 環境ではプラグインはパッケージ名の文字列指定でOK
-  plugins: ['prettier-plugin-tailwindcss'],
+  plugins: ['prettier-plugin-tailwindcss', 'prettier-plugin-organize-imports'],
   tailwindStylesheet: './src/styles/global.css',
   tailwindFunctions: ['clsx', 'twMerge', 'cn'],
 };
