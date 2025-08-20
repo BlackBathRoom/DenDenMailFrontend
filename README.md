@@ -93,8 +93,8 @@ npm run storybook
 Makefile から以下のコマンドで雛形を生成できます。
 
 ```bash
-make gen-component name=ComponentName
-make gen-story name=ComponentName
+make gen-component ui ComponentName # ui -> layoutでレイアウトコンポーネントを生成
+make gen-story ComponentName
 ```
 
 ## ディレクトリ構成
