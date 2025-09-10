@@ -5,10 +5,56 @@
     coffee --prefersdark;
 }
 
+/* Overlay color variables (light/dark) */
+:root {
+  /* Light mode: 現状維持（薄い白） */
+  --app-bg-overlay: rgba(255, 255, 255, 0.27);
+}
+
+/* System dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-bg-overlay: rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* DaisyUI theme-based overrides */
+:root[data-theme='lemonade'],
+html[data-theme='lemonade'] {
+  --app-bg-overlay: rgba(255, 255, 255, 0.27);
+}
+
+:root[data-theme='coffee'],
+html[data-theme='coffee'] {
+  --app-bg-overlay: rgba(0, 0, 0, 0.35);
+}
+
 @utility scrollbar-hidden {
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* App background */
+@utility bg-app {
+  background-image:
+    linear-gradient(to bottom, var(--app-bg-overlay), var(--app-bg-overlay)),
+    url('/background.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Apply background to the whole page */
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  /* Use Tailwind utilities via apply where possible */
+  @apply min-h-screen bg-app bg-fixed;
 }
