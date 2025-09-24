@@ -31,7 +31,7 @@
     "@storybook/react-vite": "^9.1.5",
     "@tailwindcss/vite": "^4.1.13",
     "@tanstack/react-router-devtools": "^1.131.36",
-    "@tanstack/router-plugin": "^1.131.36",
+    "@tanstack/router-plugin": "^1.131.50",
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.6",
