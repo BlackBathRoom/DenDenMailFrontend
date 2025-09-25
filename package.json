@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@tanstack/react-router": "^1.131.26",
+    "@tanstack/react-router": "^1.132.2",
     "clsx": "^2.1.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
