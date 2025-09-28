@@ -1,8 +1,8 @@
-import { getRequest, postRequest } from '@/api/shared';
 import type {
   CreateSummaryRequestBody,
   SummaryResponse,
-} from '@/api/summary/type';
+} from '@/api/routers/summary/type';
+import { getRequest, postRequest } from '@/api/shared';
 
 const getSummary = async (id: number) =>
   await getRequest<SummaryResponse>(`/summary/${id}`);

@@ -4,9 +4,12 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 
-import { getVendors, registerVendor } from '@/api/messages/vendors/function';
-import { vendorsKeys } from '@/api/messages/vendors/key';
-import { getVendorsSelector } from '@/api/messages/vendors/selector';
+import {
+  getVendors,
+  registerVendor,
+} from '@/api/routers/messages/vendors/function';
+import { vendorsKeys } from '@/api/routers/messages/vendors/key';
+import { getVendorsSelector } from '@/api/routers/messages/vendors/selector';
 
 const getVendorsOptions = () =>
   queryOptions({

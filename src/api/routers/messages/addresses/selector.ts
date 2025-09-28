@@ -1,4 +1,4 @@
-import type { GetAddressesResponse } from '@/api/messages/addresses/type';
+import type { GetAddressesResponse } from '@/api/routers/messages/addresses/type';
 import type { AddressInfo } from '@/types';
 
 const getAddressesSelector = (data: GetAddressesResponse): AddressInfo[] =>

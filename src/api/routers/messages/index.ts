@@ -1,12 +1,15 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { getMessageBody, getMessagesHeader } from '@/api/messages/function';
-import { messagesKeys } from '@/api/messages/key';
+import {
+  getMessageBody,
+  getMessagesHeader,
+} from '@/api/routers/messages/function';
+import { messagesKeys } from '@/api/routers/messages/key';
 import {
   getMessageBodySelector,
   getMessagesHeaderSelector,
-} from '@/api/messages/selector';
-import type { GetMessagesHeaderQueryParams } from '@/api/messages/type';
+} from '@/api/routers/messages/selector';
+import type { GetMessagesHeaderQueryParams } from '@/api/routers/messages/type';
 
 const getMessagesInfoOptions = (
   vendor_id: number,

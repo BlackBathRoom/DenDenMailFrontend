@@ -7,9 +7,9 @@ import {
 import {
   getAddresses,
   updateDisplayName,
-} from '@/api/messages/addresses/function';
-import { addressesKeys } from '@/api/messages/addresses/key';
-import { getAddressesSelector } from '@/api/messages/addresses/selector';
+} from '@/api/routers/messages/addresses/function';
+import { addressesKeys } from '@/api/routers/messages/addresses/key';
+import { getAddressesSelector } from '@/api/routers/messages/addresses/selector';
 
 const getAddressesOptions = () =>
   queryOptions({

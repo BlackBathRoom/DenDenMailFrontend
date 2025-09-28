@@ -1,7 +1,7 @@
 import type {
   GetAddressesResponse,
   UpdateAddressRequestBody,
-} from '@/api/messages/addresses/type';
+} from '@/api/routers/messages/addresses/type';
 import { getRequest, patchRequest } from '@/api/shared';
 
 const getAddresses = async (): Promise<GetAddressesResponse> =>

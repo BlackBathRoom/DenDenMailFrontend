@@ -1,7 +1,7 @@
 import type {
   GetMessageBodyResponse,
   GetMessageHeaderResponse,
-} from '@/api/messages/type';
+} from '@/api/routers/messages/type';
 import type { MessageDetail, MessageInfo } from '@/types';
 import { parseDateTime } from '@/utils/date';
 

@@ -1,8 +1,11 @@
 import { queryOptions, useMutation } from '@tanstack/react-query';
 
-import { createSummaryRequest, getSummary } from '@/api/summary/function';
-import { summaryKeys } from '@/api/summary/key';
-import { getSummarySelector } from '@/api/summary/selector';
+import {
+  createSummaryRequest,
+  getSummary,
+} from '@/api/routers/summary/function';
+import { summaryKeys } from '@/api/routers/summary/key';
+import { getSummarySelector } from '@/api/routers/summary/selector';
 
 const getSummaryOptions = (message_id: number) =>
   queryOptions({

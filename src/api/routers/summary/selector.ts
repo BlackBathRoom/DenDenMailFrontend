@@ -1,4 +1,4 @@
-import type { SummaryResponse } from '@/api/summary/type';
+import type { SummaryResponse } from '@/api/routers/summary/type';
 import type { Summary } from '@/types';
 
 const getSummarySelector = (data: SummaryResponse): Summary => data;

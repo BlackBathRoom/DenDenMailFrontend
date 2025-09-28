@@ -1,4 +1,4 @@
-import type { GetFoldersResponse } from '@/api/messages/folders/type';
+import type { GetFoldersResponse } from '@/api/routers/messages/folders/type';
 import type { FolderInfo } from '@/types';
 
 const getFoldersSelector = (data: GetFoldersResponse): FolderInfo[] =>

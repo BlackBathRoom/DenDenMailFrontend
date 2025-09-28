@@ -1,7 +1,7 @@
 import type {
   CreateVendorRequestBody,
   GetVendorsResponse,
-} from '@/api/messages/vendors/type';
+} from '@/api/routers/messages/vendors/type';
 import { getRequest, postRequest } from '@/api/shared';
 
 const getVendors = async (): Promise<GetVendorsResponse> =>

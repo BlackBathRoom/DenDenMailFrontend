@@ -1,4 +1,4 @@
-import type { GetMessagesHeaderQueryParams } from '@/api/messages/type';
+import type { GetMessagesHeaderQueryParams } from '@/api/routers/messages/type';
 
 export const messagesKeys = {
   all: ['messages'] as const,

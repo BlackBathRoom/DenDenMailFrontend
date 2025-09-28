@@ -2,7 +2,7 @@ import type {
   GetMessageBodyResponse,
   GetMessageHeaderResponse,
   GetMessagesHeaderQueryParams,
-} from '@/api/messages/type';
+} from '@/api/routers/messages/type';
 import { getRequest } from '@/api/shared';
 
 const getMessagesHeader = async (
