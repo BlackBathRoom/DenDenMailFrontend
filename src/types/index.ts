@@ -47,6 +47,10 @@ type FolderInfo = {
   messageCount: number;
 };
 
+type Summary = {
+  content: string;
+};
+
 export type {
   AddressInfo,
   Attachment,
@@ -54,5 +58,6 @@ export type {
   FolderInfo,
   MessageDetail,
   MessageInfo,
+  Summary,
   VendorInfo,
 };
