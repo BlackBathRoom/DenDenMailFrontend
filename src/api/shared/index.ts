@@ -1,15 +1,5 @@
-import '@tanstack/react-query';
-import type {
-  AxiosError,
-  AxiosRequestConfig as _AxiosRequestConfig,
-} from 'axios';
+import type { AxiosRequestConfig as _AxiosRequestConfig } from 'axios';
 import axios from 'axios';
-
-declare module '@tanstack/react-query' {
-  interface Register {
-    defaultError: AxiosError;
-  }
-}
 
 interface BaseDTO {
   id: number;
