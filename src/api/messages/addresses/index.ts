@@ -1,4 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import {
   getAddresses,
@@ -7,14 +11,12 @@ import {
 import { addressesKeys } from '@/api/messages/addresses/key';
 import { getAddressesSelector } from '@/api/messages/addresses/selector';
 
-const useGetAddresses = () => {
-  const { data, isPending, isError } = useQuery({
+const getAddressesOptions = () =>
+  queryOptions({
     queryKey: addressesKeys.list(),
     queryFn: getAddresses,
     select: getAddressesSelector,
   });
-  return { data, isPending, isError };
-};
 
 const useUpdateDisplayName = () => {
   const queryClient = useQueryClient();
@@ -27,4 +29,4 @@ const useUpdateDisplayName = () => {
   return { updateDisplayName: mutate };
 };
 
-export { useGetAddresses, useUpdateDisplayName };
+export { getAddressesOptions, useUpdateDisplayName };

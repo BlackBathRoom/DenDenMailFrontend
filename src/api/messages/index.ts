@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 
 import { getMessageBody, getMessagesHeader } from '@/api/messages/function';
 import { messagesKeys } from '@/api/messages/key';
@@ -8,12 +8,12 @@ import {
 } from '@/api/messages/selector';
 import type { GetMessagesHeaderQueryParams } from '@/api/messages/type';
 
-const useGetMessagesInfo = (
+const getMessagesInfoOptions = (
   vendor_id: number,
   folder_id: number,
   queryParams?: GetMessagesHeaderQueryParams
-) => {
-  const { data, isPending, isError } = useQuery({
+) =>
+  queryOptions({
     queryKey: messagesKeys.list(vendor_id, folder_id, queryParams),
     queryFn: async ({ queryKey }) => {
       const [, , vid, fid, qp] = queryKey;
@@ -21,15 +21,13 @@ const useGetMessagesInfo = (
     },
     select: getMessagesHeaderSelector,
   });
-  return { data, isPending, isError };
-};
 
-const useGetMessageDetail = (
+const getMessageDetailOptions = (
   vendor_id: number,
   folder_id: number,
   message_id: number
-) => {
-  const { data, isPending, isError } = useQuery({
+) =>
+  queryOptions({
     queryKey: messagesKeys.detail(vendor_id, folder_id, message_id),
     queryFn: async ({ queryKey }) => {
       const [, , vid, fid, mid] = queryKey;
@@ -37,7 +35,5 @@ const useGetMessageDetail = (
     },
     select: getMessageBodySelector,
   });
-  return { data, isPending, isError };
-};
 
-export { useGetMessageDetail, useGetMessagesInfo };
+export { getMessageDetailOptions, getMessagesInfoOptions };
