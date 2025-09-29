@@ -26,7 +26,7 @@ const useRegisterVendor = () => {
       queryClient.invalidateQueries({ queryKey: vendorsKeys.list() });
     },
   });
-  return { registerVendor: mutate };
+  return { mutate };
 };
 
 export { getVendorsOptions, useRegisterVendor };

@@ -21,7 +21,7 @@ const useCreateSummary = () => {
   const { mutate, isSuccess } = useMutation({
     mutationFn: createSummaryRequest,
   });
-  return { createSummary: mutate, isSuccess };
+  return { mutate, isSuccess };
 };
 
 export { getSummaryOptions, useCreateSummary };

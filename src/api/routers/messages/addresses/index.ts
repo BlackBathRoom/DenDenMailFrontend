@@ -26,7 +26,7 @@ const useUpdateDisplayName = () => {
       queryClient.invalidateQueries({ queryKey: addressesKeys.list() });
     },
   });
-  return { updateDisplayName: mutate };
+  return { mutate };
 };
 
 export { getAddressesOptions, useUpdateDisplayName };
