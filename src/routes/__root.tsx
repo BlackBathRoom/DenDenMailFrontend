@@ -1,13 +1,23 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { QueryClient } from '@tanstack/react-query';
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
-import PageFrame from '@/components/layout/PageFrame';
+import Header from '@/components/ui/Header';
 
-export const Route = createRootRoute({
-  component: () => (
-    <PageFrame>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </PageFrame>
-  ),
+const RootComponent = () => {
+  return (
+    <div className="flex h-dvh max-h-dvh w-full flex-col gap-5 overflow-y-hidden px-7 py-5">
+      <Header />
+      <div className="w-full flex-1">
+        <Outlet />
+        <TanStackRouterDevtools />
+      </div>
+    </div>
+  );
+};
+
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient;
+}>()({
+  component: RootComponent,
 });
