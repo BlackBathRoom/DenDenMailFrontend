@@ -51,6 +51,17 @@ type Summary = {
   content: string;
 };
 
+type BasePriority = {
+  id: number;
+  level: number;
+};
+
+type PriorityDictionary = BasePriority & {
+  word: string;
+};
+
+type PriorityAddress = BasePriority & AddressInfo;
+
 export type {
   AddressInfo,
   Attachment,
@@ -58,6 +69,8 @@ export type {
   FolderInfo,
   MessageDetail,
   MessageInfo,
+  PriorityAddress,
+  PriorityDictionary,
   Summary,
   VendorInfo,
 };
