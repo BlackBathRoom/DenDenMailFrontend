@@ -5,6 +5,10 @@ interface BaseDTO {
   id: number;
 }
 
+interface BasePriority extends BaseDTO {
+  priority: number;
+}
+
 type AxiosRequestConfig = Omit<
   _AxiosRequestConfig,
   'url' | 'baseURL' | 'method'
@@ -58,4 +62,4 @@ const patchRequest = async <T>(
 };
 
 export { getRequest, patchRequest, postRequest };
-export type { BaseDTO };
+export type { BaseDTO, BasePriority };
