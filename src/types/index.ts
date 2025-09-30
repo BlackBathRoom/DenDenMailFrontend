@@ -1,9 +1,14 @@
 type DateTime = {
-  year: number;
-  month: number;
-  day: number;
-  hour: number;
-  minute: number;
+  /** 年 (ゼロパディング4桁) */
+  year: string;
+  /** 月 (ゼロパディング2桁) */
+  month: string;
+  /** 日 (ゼロパディング2桁) */
+  day: string;
+  /** 時 (24時間制, ゼロパディング2桁) */
+  hour: string;
+  /** 分 (ゼロパディング2桁) */
+  minute: string;
 };
 
 type MessageInfo = {
