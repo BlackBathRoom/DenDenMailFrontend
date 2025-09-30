@@ -69,7 +69,7 @@ function RouteComponent() {
           <h3 className="my-5 w-full rounded-lg bg-base-100/70 py-3 text-center text-4xl font-bold">
             {folders.find((f) => f.id === folderId)?.name}
           </h3>
-          <ul className="flex max-h-full max-w-80 flex-col overflow-y-auto rounded-sm bg-base-100">
+          <ul className="flex max-h-full max-w-80 flex-col overflow-y-auto rounded-sm bg-base-100 mb-2 pb-1">
             {messages.map((message, i) => (
               <li key={message.id}>
                 <Link
