@@ -11,71 +11,243 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as HomeRouteRouteImport } from './routes/home/route'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as HomeVendorsRouteRouteImport } from './routes/home/vendors/route'
+import { Route as HomeVendorsVendorIdFoldersIndexRouteImport } from './routes/home/vendors/$vendorId/folders/index'
+import { Route as HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteImport } from './routes/home/vendors/$vendorId/folders/$folderId/messages/route'
+import { Route as HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRouteImport } from './routes/home/vendors/$vendorId/folders/$folderId/messages/$messageId/index'
 
-const IndexLazyRouteImport = createFileRoute('/')()
-const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
+const HomeVendorsIndexLazyRouteImport = createFileRoute('/home/vendors/')()
+const HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRouteImport =
+  createFileRoute('/home/vendors/$vendorId/folders/$folderId/messages/')()
 
-const IndexLazyRoute = IndexLazyRouteImport.update({
+const HomeRouteRoute = HomeRouteRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
-const SettingsIndexLazyRoute = SettingsIndexLazyRouteImport.update({
-  id: '/settings/',
-  path: '/settings/',
-  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeVendorsRouteRoute = HomeVendorsRouteRouteImport.update({
+  id: '/vendors',
+  path: '/vendors',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
+const HomeVendorsIndexLazyRoute = HomeVendorsIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HomeVendorsRouteRoute,
 } as any).lazy(() =>
-  import('./routes/settings/index.lazy').then((d) => d.Route),
+  import('./routes/home/vendors/index.lazy').then((d) => d.Route),
 )
+const HomeVendorsVendorIdFoldersIndexRoute =
+  HomeVendorsVendorIdFoldersIndexRouteImport.update({
+    id: '/$vendorId/folders/',
+    path: '/$vendorId/folders/',
+    getParentRoute: () => HomeVendorsRouteRoute,
+  } as any)
+const HomeVendorsVendorIdFoldersFolderIdMessagesRouteRoute =
+  HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteImport.update({
+    id: '/$vendorId/folders/$folderId/messages',
+    path: '/$vendorId/folders/$folderId/messages',
+    getParentRoute: () => HomeVendorsRouteRoute,
+  } as any)
+const HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute =
+  HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => HomeVendorsVendorIdFoldersFolderIdMessagesRouteRoute,
+  } as any).lazy(() =>
+    import(
+      './routes/home/vendors/$vendorId/folders/$folderId/messages/index.lazy'
+    ).then((d) => d.Route),
+  )
+const HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute =
+  HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRouteImport.update({
+    id: '/$messageId/',
+    path: '/$messageId/',
+    getParentRoute: () => HomeVendorsVendorIdFoldersFolderIdMessagesRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/settings': typeof SettingsIndexLazyRoute
+  '/': typeof IndexRoute
+  '/home': typeof HomeRouteRouteWithChildren
+  '/home/vendors': typeof HomeVendorsRouteRouteWithChildren
+  '/home/vendors/': typeof HomeVendorsIndexLazyRoute
+  '/home/vendors/$vendorId/folders': typeof HomeVendorsVendorIdFoldersIndexRoute
+  '/home/vendors/$vendorId/folders/$folderId/messages': typeof HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteWithChildren
+  '/home/vendors/$vendorId/folders/$folderId/messages/': typeof HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute
+  '/home/vendors/$vendorId/folders/$folderId/messages/$messageId': typeof HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/settings': typeof SettingsIndexLazyRoute
+  '/': typeof IndexRoute
+  '/home': typeof HomeRouteRouteWithChildren
+  '/home/vendors': typeof HomeVendorsIndexLazyRoute
+  '/home/vendors/$vendorId/folders': typeof HomeVendorsVendorIdFoldersIndexRoute
+  '/home/vendors/$vendorId/folders/$folderId/messages': typeof HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute
+  '/home/vendors/$vendorId/folders/$folderId/messages/$messageId': typeof HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexLazyRoute
-  '/settings/': typeof SettingsIndexLazyRoute
+  '/': typeof IndexRoute
+  '/home': typeof HomeRouteRouteWithChildren
+  '/home/vendors': typeof HomeVendorsRouteRouteWithChildren
+  '/home/vendors/': typeof HomeVendorsIndexLazyRoute
+  '/home/vendors/$vendorId/folders/': typeof HomeVendorsVendorIdFoldersIndexRoute
+  '/home/vendors/$vendorId/folders/$folderId/messages': typeof HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteWithChildren
+  '/home/vendors/$vendorId/folders/$folderId/messages/': typeof HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute
+  '/home/vendors/$vendorId/folders/$folderId/messages/$messageId/': typeof HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/settings'
+  fullPaths:
+    | '/'
+    | '/home'
+    | '/home/vendors'
+    | '/home/vendors/'
+    | '/home/vendors/$vendorId/folders'
+    | '/home/vendors/$vendorId/folders/$folderId/messages'
+    | '/home/vendors/$vendorId/folders/$folderId/messages/'
+    | '/home/vendors/$vendorId/folders/$folderId/messages/$messageId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/settings'
-  id: '__root__' | '/' | '/settings/'
+  to:
+    | '/'
+    | '/home'
+    | '/home/vendors'
+    | '/home/vendors/$vendorId/folders'
+    | '/home/vendors/$vendorId/folders/$folderId/messages'
+    | '/home/vendors/$vendorId/folders/$folderId/messages/$messageId'
+  id:
+    | '__root__'
+    | '/'
+    | '/home'
+    | '/home/vendors'
+    | '/home/vendors/'
+    | '/home/vendors/$vendorId/folders/'
+    | '/home/vendors/$vendorId/folders/$folderId/messages'
+    | '/home/vendors/$vendorId/folders/$folderId/messages/'
+    | '/home/vendors/$vendorId/folders/$folderId/messages/$messageId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  SettingsIndexLazyRoute: typeof SettingsIndexLazyRoute
+  IndexRoute: typeof IndexRoute
+  HomeRouteRoute: typeof HomeRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyRouteImport
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings/': {
-      id: '/settings/'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+    '/home/vendors': {
+      id: '/home/vendors'
+      path: '/vendors'
+      fullPath: '/home/vendors'
+      preLoaderRoute: typeof HomeVendorsRouteRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
+    '/home/vendors/': {
+      id: '/home/vendors/'
+      path: '/'
+      fullPath: '/home/vendors/'
+      preLoaderRoute: typeof HomeVendorsIndexLazyRouteImport
+      parentRoute: typeof HomeVendorsRouteRoute
+    }
+    '/home/vendors/$vendorId/folders/': {
+      id: '/home/vendors/$vendorId/folders/'
+      path: '/$vendorId/folders'
+      fullPath: '/home/vendors/$vendorId/folders'
+      preLoaderRoute: typeof HomeVendorsVendorIdFoldersIndexRouteImport
+      parentRoute: typeof HomeVendorsRouteRoute
+    }
+    '/home/vendors/$vendorId/folders/$folderId/messages': {
+      id: '/home/vendors/$vendorId/folders/$folderId/messages'
+      path: '/$vendorId/folders/$folderId/messages'
+      fullPath: '/home/vendors/$vendorId/folders/$folderId/messages'
+      preLoaderRoute: typeof HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteImport
+      parentRoute: typeof HomeVendorsRouteRoute
+    }
+    '/home/vendors/$vendorId/folders/$folderId/messages/': {
+      id: '/home/vendors/$vendorId/folders/$folderId/messages/'
+      path: '/'
+      fullPath: '/home/vendors/$vendorId/folders/$folderId/messages/'
+      preLoaderRoute: typeof HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRouteImport
+      parentRoute: typeof HomeVendorsVendorIdFoldersFolderIdMessagesRouteRoute
+    }
+    '/home/vendors/$vendorId/folders/$folderId/messages/$messageId/': {
+      id: '/home/vendors/$vendorId/folders/$folderId/messages/$messageId/'
+      path: '/$messageId'
+      fullPath: '/home/vendors/$vendorId/folders/$folderId/messages/$messageId'
+      preLoaderRoute: typeof HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRouteImport
+      parentRoute: typeof HomeVendorsVendorIdFoldersFolderIdMessagesRouteRoute
     }
   }
 }
 
+interface HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteChildren {
+  HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute: typeof HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute
+  HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute: typeof HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute
+}
+
+const HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteChildren: HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteChildren =
+  {
+    HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute:
+      HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute,
+    HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute:
+      HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute,
+  }
+
+const HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteWithChildren =
+  HomeVendorsVendorIdFoldersFolderIdMessagesRouteRoute._addFileChildren(
+    HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteChildren,
+  )
+
+interface HomeVendorsRouteRouteChildren {
+  HomeVendorsIndexLazyRoute: typeof HomeVendorsIndexLazyRoute
+  HomeVendorsVendorIdFoldersIndexRoute: typeof HomeVendorsVendorIdFoldersIndexRoute
+  HomeVendorsVendorIdFoldersFolderIdMessagesRouteRoute: typeof HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteWithChildren
+}
+
+const HomeVendorsRouteRouteChildren: HomeVendorsRouteRouteChildren = {
+  HomeVendorsIndexLazyRoute: HomeVendorsIndexLazyRoute,
+  HomeVendorsVendorIdFoldersIndexRoute: HomeVendorsVendorIdFoldersIndexRoute,
+  HomeVendorsVendorIdFoldersFolderIdMessagesRouteRoute:
+    HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteWithChildren,
+}
+
+const HomeVendorsRouteRouteWithChildren =
+  HomeVendorsRouteRoute._addFileChildren(HomeVendorsRouteRouteChildren)
+
+interface HomeRouteRouteChildren {
+  HomeVendorsRouteRoute: typeof HomeVendorsRouteRouteWithChildren
+}
+
+const HomeRouteRouteChildren: HomeRouteRouteChildren = {
+  HomeVendorsRouteRoute: HomeVendorsRouteRouteWithChildren,
+}
+
+const HomeRouteRouteWithChildren = HomeRouteRoute._addFileChildren(
+  HomeRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  SettingsIndexLazyRoute: SettingsIndexLazyRoute,
+  IndexRoute: IndexRoute,
+  HomeRouteRoute: HomeRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
