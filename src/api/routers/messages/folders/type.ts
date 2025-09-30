@@ -6,7 +6,12 @@ interface FolderDTO extends BaseDTO {
   message_count: number;
 }
 
+// query params
+interface GetFoldersQueryParams {
+  vendor_id?: number;
+}
+
 // response
 type GetFoldersResponse = FolderDTO[];
 
-export type { GetFoldersResponse };
+export type { GetFoldersQueryParams, GetFoldersResponse };
