@@ -228,6 +228,7 @@ function RouteComponent() {
             <div className="flex gap-0">
               {['All', 'Read', 'UnRead'].map((value) => (
                 <Link
+                  key={value}
                   to="/home/vendors/$vendorId/folders/$folderId/messages"
                   params={{
                     vendorId: vendorId.toString(),

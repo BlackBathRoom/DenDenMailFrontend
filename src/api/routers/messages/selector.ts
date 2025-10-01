@@ -18,7 +18,14 @@ const getMessagesHeaderSelector = (
 
 const getMessageBodySelector = (
   data: GetMessageBodyResponse
-): Omit<MessageDetail, 'messageInfo'> => ({
+): MessageDetail => ({
+  messageInfo: {
+    id: data.id,
+    subject: data.header.subject,
+    receivedAt: parseDateTime(data.header.date_received),
+    isRead: data.header.is_read,
+    senderAddress: data.header.sender_address,
+  },
   textBody: data.text,
   htmlBody: data.html,
   attachments: data.attachments.length

@@ -19,6 +19,7 @@ interface MessageHeaderDTO extends BaseDTO {
 }
 
 interface MessageBodyDTO extends BaseDTO {
+  header: MessageHeaderDTO;
   text: string | null;
   html: string | null;
   encoding: string;
