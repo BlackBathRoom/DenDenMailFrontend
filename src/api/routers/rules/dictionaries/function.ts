@@ -7,15 +7,13 @@ import { getRequest, patchRequest, postRequest } from '@/api/shared';
 
 const getPriorityDictionaries =
   async (): Promise<GetPriorityDictionariesResponse> =>
-    await getRequest<GetPriorityDictionariesResponse>(
-      `/rules/dictionaries/priority`
-    );
+    await getRequest<GetPriorityDictionariesResponse>(`rules/dictionaries`);
 
 const registerPriorityDictionary = async ({
   word,
   priority,
 }: RegisterPriorityDictionaryBody) =>
-  postRequest<RegisterPriorityDictionaryBody>('/rules/dictionaries/priority', {
+  postRequest<RegisterPriorityDictionaryBody>('rules/dictionaries', {
     word,
     priority,
   });
@@ -28,7 +26,7 @@ const updatePriorityDictionary = async ({
   id,
   priority,
 }: UpdatePriorityDictionary) =>
-  patchRequest<UpdatePriorityDictionaryBody>(`/rules/dictionaries/${id}`, {
+  patchRequest<UpdatePriorityDictionaryBody>(`rules/dictionaries/${id}`, {
     priority,
   });
 
