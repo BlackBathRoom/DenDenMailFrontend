@@ -1,0 +1,3 @@
+const PAGE_PER_MESSAGE = 50;
+
+export { PAGE_PER_MESSAGE };
