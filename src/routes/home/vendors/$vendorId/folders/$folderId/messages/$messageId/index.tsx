@@ -6,10 +6,16 @@ import {
   getMessageDetailOptions,
   getMessagesInfoOptions,
 } from '@/api/routers/messages';
+import { getFoldersOptions } from '@/api/routers/messages/folders';
+import {
+  paramsSchema as parentParamSchema,
+  resolveQueryParams,
+} from '@/routes/home/vendors/$vendorId/folders/$folderId/messages/_helper';
 
 export const Route = createFileRoute(
   '/home/vendors/$vendorId/folders/$folderId/messages/$messageId/'
 )({
+  validateSearch: parentParamSchema,
   loader: async ({
     params: { vendorId, folderId, messageId },
     context: { queryClient },
@@ -26,14 +32,28 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const params = Route.useParams();
+  const search = Route.useSearch();
+  console.log('search in message detail:', search);
+
   const vendorId = parseInt(params.vendorId);
   const folderId = parseInt(params.folderId);
   const messageId = parseInt(params.messageId);
 
+  const { data: folders } = useSuspenseQuery(
+    getFoldersOptions({ vendor_id: vendorId })
+  );
+
+  const queryParams = resolveQueryParams(
+    search.isRead,
+    search.page,
+    folders.find((f) => f.id === folderId)?.messageCount
+  );
+
   const { data: messagesInfo } = useSuspenseQuery(
-    getMessagesInfoOptions(vendorId, folderId)
+    getMessagesInfoOptions(vendorId, folderId, queryParams)
   );
   const messageInfo = messagesInfo.find((m) => m.id === messageId)!;
+  console.log('messageInfo:', messageInfo);
   const { data: message } = useSuspenseQuery(
     getMessageDetailOptions(vendorId, folderId, messageId)
   );
