@@ -27,7 +27,7 @@ const useRegisterPriorityAddress = () => {
       queryClient.invalidateQueries({ queryKey: addressesKeys.list() });
     },
   });
-  return { mutate };
+  return mutate;
 };
 
 const useUpdatePriorityAddress = () => {
@@ -38,7 +38,7 @@ const useUpdatePriorityAddress = () => {
       queryClient.invalidateQueries({ queryKey: addressesKeys.list() });
     },
   });
-  return { mutate };
+  return mutate;
 };
 
 export {
