@@ -3,6 +3,7 @@ import { PencilIcon, TrashIcon } from 'lucide-react';
 
 import { useSettings } from '@/hooks/useSettings';
 import Divider from '@/components/layout/Divider';
+import Button from '@/components/ui/Button';
 import Collapse from '@/components/ui/Collapse';
 import DragAndDrop from '@/components/ui/DragAndDrop';
 
@@ -35,15 +36,8 @@ function RouteComponent() {
             <Collapse.Title className="text-3xl font-semibold">
               優先辞書登録
             </Collapse.Title>
-            <Collapse.Content className="p-4">
-              <div className="mb-4">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => addDictionary.open()}
-                >
-                  + 新しい単語を追加
-                </button>
-              </div>
+            <Collapse.Content className="p-4 flex flex-col gap-4">
+              <Button color="primary">+ 新しい単語を追加</Button>
               <DragAndDrop className="flex w-full flex-col gap-5">
                 {priorityDictionary.levels.map((level, i) => (
                   <div key={level} className="contents">
@@ -105,15 +99,8 @@ function RouteComponent() {
             <Collapse.Title className="text-3xl font-semibold">
               優先アドレス登録
             </Collapse.Title>
-            <Collapse.Content className="p-4">
-              <div className="mb-4">
-                <button
-                  onClick={() => addAddress.open()}
-                  className="btn btn-primary"
-                >
-                  + 新しいアドレスを追加
-                </button>
-              </div>
+            <Collapse.Content className="p-4 flex flex-col gap-4">
+              <Button color="primary">+ 新しいアドレスを追加</Button>
               <DragAndDrop className="flex w-full flex-col gap-5">
                 {priorityAddress.levels.map((level, i) => (
                   <div key={level} className="contents">
