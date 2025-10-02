@@ -21,9 +21,9 @@ const SummaryTooltip: React.FC<Props> = ({
   if (isError) return children;
 
   return isPending ? (
-    <div className="tooltip">
+    <div className="tooltip tooltip-accent">
       <div className="tooltip-content">
-        <Loading size="sm" variety="spinner" />
+        <Loading size="sm" variety="spinner" color="secondary" />
       </div>
       {children}
     </div>
