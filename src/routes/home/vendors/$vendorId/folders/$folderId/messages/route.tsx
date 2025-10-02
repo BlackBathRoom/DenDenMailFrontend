@@ -181,7 +181,7 @@ function RouteComponent() {
               </Link>
             </div>
           </div>
-          <ul className="flex max-h-full max-w-80 flex-col overflow-y-auto rounded-sm bg-base-100 mb-2 pb-1">
+          <ul className="flex max-h-full max-w-80 flex-col overflow-x-clip overflow-y-auto rounded-sm bg-base-100 mb-2 pb-1">
             {messages.map((message, i) => (
               <li key={message.id}>
                 <Link
