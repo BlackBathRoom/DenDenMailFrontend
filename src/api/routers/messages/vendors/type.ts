@@ -2,7 +2,6 @@ import type { BaseDTO } from '@/api/shared';
 
 // dto
 interface VendorDTO extends BaseDTO {
-  id: number;
   name: string;
 }
 
