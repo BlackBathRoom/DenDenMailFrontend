@@ -131,7 +131,12 @@ function RouteComponent() {
                   )}
                 </span>
                 <span>-</span>
-                <span>{search.page * PAGE_PER_MESSAGE}</span>
+                <span>
+                  {Math.min(
+                    search.page * PAGE_PER_MESSAGE,
+                    folders.find((f) => f.id === folderId)?.messageCount ?? 0
+                  )}
+                </span>
               </p>
             </div>
             <div className="flex gap-3">
