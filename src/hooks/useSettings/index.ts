@@ -2,11 +2,20 @@ import React, { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { useModal } from '@/hooks/useModal';
-import { DICTIONARY_MODAL_IDS } from '@/hooks/useSettings/constants';
+import {
+  ADDRESS_MODAL_IDS,
+  DICTIONARY_MODAL_IDS,
+} from '@/hooks/useSettings/constants';
 import type { Target } from '@/hooks/useSettings/type';
+import AddressAddModal from '@/components/feature/settings/AddressAddModal';
 import DictionaryAddModal from '@/components/feature/settings/DictionaryAddModal';
 import EditModal from '@/components/feature/settings/EditModal';
-import { getPriorityAddressesOptions } from '@/api/routers/rules/addresses';
+import { getAddressesOptions } from '@/api/routers/messages/addresses';
+import {
+  getPriorityAddressesOptions,
+  useRegisterPriorityAddress,
+  useUpdatePriorityAddress,
+} from '@/api/routers/rules/addresses';
 import {
   getPriorityDictionaryOptions,
   useRegisterPriorityDictionary,
@@ -36,38 +45,75 @@ type EditModal = {
   open: (target: Target) => void;
 } & BaseModal;
 
+type UpdateFn = (id: number, level: number) => void;
+
 type Return = {
   priorityAddress: ContentSet<PriorityAddress>;
   priorityDictionary: ContentSet<PriorityDictionary>;
   modals: {
+    addAddress: AddModal;
+    editAddress: EditModal;
     addDictionary: AddModal;
     editDictionary: EditModal;
   };
   updateFn: {
-    dictionary: (id: number, level: number) => void;
+    address: UpdateFn;
+    dictionary: UpdateFn;
   };
 };
 
 export const useSettings = (): Return => {
+  // queries
   const { data: priorityAddresses } = useSuspenseQuery(
     getPriorityAddressesOptions()
   );
   const { data: priorityDictionary } = useSuspenseQuery(
     getPriorityDictionaryOptions()
   );
+  const { data: addresses } = useSuspenseQuery(getAddressesOptions());
+
   const [editContent, setEditContent] = useState<null | Target>(null);
+
+  // mutations
+  const addAddressMutate = useRegisterPriorityAddress();
+  const updateAddressMutate = useUpdatePriorityAddress();
 
   const addDictionaryMutate = useRegisterPriorityDictionary();
   const updateDictionaryMutate = useUpdatePriorityDictionary();
 
-  const _addDictionaryModal = useModal(DICTIONARY_MODAL_IDS.add);
-  const _editDictionaryModal = useModal(DICTIONARY_MODAL_IDS.edit);
+  // modal functions
+  const addAddressModal = useModal(ADDRESS_MODAL_IDS.add);
+  const editAddressModal = useModal(ADDRESS_MODAL_IDS.edit);
+
+  const addDictionaryModal = useModal(DICTIONARY_MODAL_IDS.add);
+  const editDictionaryModal = useModal(DICTIONARY_MODAL_IDS.edit);
+
+  // modal components
+  const AddAddressModal: React.FC = () =>
+    AddressAddModal({
+      addresses: addresses.filter(
+        (addr) => !priorityAddresses.some((p) => p.address === addr.address)
+      ),
+      onSubmit: (address_id: number, level: number) =>
+        addAddressMutate({ address_id, priority: level }),
+    });
+
+  const UpdateAddressModal: React.FC = () =>
+    EditModal({
+      modalId: ADDRESS_MODAL_IDS.edit,
+      target: editContent,
+      onSubmit: (id: number, targetLevel: number) => {
+        updateAddressMutate({ id, priority: targetLevel });
+        editAddressModal.closeModal();
+        setEditContent(null);
+      },
+    });
 
   const AddDictionaryModal: React.FC = () =>
     DictionaryAddModal({
       onSubmit: (word: string, level: number) => {
         addDictionaryMutate({ word: word, priority: level });
-        _addDictionaryModal.closeModal();
+        addDictionaryModal.closeModal();
       },
     });
 
@@ -77,11 +123,12 @@ export const useSettings = (): Return => {
       target: editContent,
       onSubmit: (id: number, targetLevel: number) => {
         updateDictionaryMutate({ id, priority: targetLevel });
-        _editDictionaryModal.closeModal();
+        editDictionaryModal.closeModal();
         setEditContent(null);
       },
     });
 
+  // helpers
   const openEditModal = (target: Target, modalOpenFn: () => void) => {
     setEditContent(target);
     setTimeout(() => modalOpenFn(), 0);
@@ -97,19 +144,32 @@ export const useSettings = (): Return => {
       levels: resolveLevels(priorityDictionary),
     },
     modals: {
+      addAddress: {
+        open: addAddressModal.openModal,
+        close: addAddressModal.closeModal,
+        Component: AddAddressModal,
+      },
+      editAddress: {
+        open: (target: Target) =>
+          openEditModal(target, editAddressModal.openModal),
+        close: editAddressModal.closeModal,
+        Component: UpdateAddressModal,
+      },
       addDictionary: {
-        open: _addDictionaryModal.openModal,
-        close: _addDictionaryModal.closeModal,
+        open: addDictionaryModal.openModal,
+        close: addDictionaryModal.closeModal,
         Component: AddDictionaryModal,
       },
       editDictionary: {
         open: (target: Target) =>
-          openEditModal(target, _editDictionaryModal.openModal),
-        close: _editDictionaryModal.closeModal,
+          openEditModal(target, editDictionaryModal.openModal),
+        close: editDictionaryModal.closeModal,
         Component: UpdateDictionaryModal,
       },
     },
     updateFn: {
+      address: (id: number, level: number) =>
+        updateAddressMutate({ id, priority: level }),
       dictionary: (id: number, level: number) =>
         updateDictionaryMutate({ id, priority: level }),
     },

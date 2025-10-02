@@ -12,8 +12,9 @@ export const Route = createLazyFileRoute('/settings/')({
 
 function RouteComponent() {
   const {
+    priorityAddress,
     priorityDictionary,
-    modals: { addDictionary, editDictionary },
+    modals: { addAddress, editAddress, addDictionary, editDictionary },
     updateFn,
   } = useSettings();
 
@@ -99,8 +100,87 @@ function RouteComponent() {
               </DragAndDrop>
             </Collapse.Content>
           </Collapse>
+          <Collapse
+            icon="arrow"
+            name="settings"
+            className="join-item border border-primary"
+          >
+            <Collapse.Title className="text-3xl font-semibold">
+              優先アドレス登録
+            </Collapse.Title>
+            <Collapse.Content className="p-4">
+              <div className="mb-4">
+                <button
+                  onClick={() => addAddress.open()}
+                  className="btn btn-primary"
+                >
+                  + 新しいアドレスを追加
+                </button>
+              </div>
+              <DragAndDrop className="flex w-full flex-col gap-5">
+                {priorityAddress.levels.map((level, i) => (
+                  <>
+                    <div
+                      key={level}
+                      className="flex w-full flex-col items-start gap-2"
+                    >
+                      <h4 className="text-lg font-semibold">レベル {level}</h4>
+                      <DragAndDrop.DropZone
+                        onDrop={(itemId: string) =>
+                          updateFn.address(parseInt(itemId), level)
+                        }
+                        className="flex w-full max-w-xl flex-col gap-5 rounded-lg border p-4"
+                      >
+                        {priorityAddress.data
+                          .filter((addr) => addr.level === level)
+                          .map((addr) => (
+                            <DragAndDrop.Item
+                              key={addr.id}
+                              itemId={addr.id.toString()}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span>
+                                  {addr.displayName
+                                    ? `${addr.displayName} (${addr.address})`
+                                    : addr.address}
+                                </span>
+                                <div className="flex h-full gap-2">
+                                  <button
+                                    onClick={() => {
+                                      editAddress.open({
+                                        id: addr.id,
+                                        label: addr.address,
+                                        level: addr.level,
+                                      });
+                                    }}
+                                    className="btn btn-square h-fit w-fit p-1 btn-info"
+                                  >
+                                    <PencilIcon className="w-6 h-6" />
+                                  </button>
+                                  <button
+                                    className="btn btn-square h-fit w-fit p-1 btn-error"
+                                    onClick={() => deleteFn(addr.id)}
+                                  >
+                                    <TrashIcon className="w-6 h-6" />
+                                  </button>
+                                </div>
+                              </div>
+                            </DragAndDrop.Item>
+                          ))}
+                      </DragAndDrop.DropZone>
+                    </div>
+                    {i < priorityAddress.levels.length - 1 && (
+                      <Divider direction="horizontal" color="accent" />
+                    )}
+                  </>
+                ))}
+              </DragAndDrop>
+            </Collapse.Content>
+          </Collapse>
         </div>
       </div>
+      <addAddress.Component />
+      <editAddress.Component />
       <addDictionary.Component />
       <editDictionary.Component />
     </>
