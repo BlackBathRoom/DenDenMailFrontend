@@ -3,6 +3,7 @@ import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
 import { ChevronLeft, ChevronRight, ListFilter } from 'lucide-react';
 
 import { useModal } from '@/hooks/useModal';
+import SummaryTooltip from '@/components/feature/home/SummaryTooltip';
 import Divider from '@/components/layout/Divider';
 import Modal from '@/components/ui/Modal';
 import Panel from '@/components/ui/Panel';
@@ -193,26 +194,31 @@ function RouteComponent() {
                   search={(old) => old}
                   className="flex w-full cursor-pointer flex-col px-4 py-2"
                 >
-                  <p className="text-end text-sm text-primary flex gap-1 justify-end">
-                    <span className="flex gap-[0.15rem]">
-                      <span>{message.receivedAt.year}</span>
-                      <span>-</span>
-                      <span>{message.receivedAt.month}</span>
-                      <span>-</span>
-                      <span>{message.receivedAt.day}</span>
-                    </span>
-                    <span className="flex gap-[0.15rem]">
-                      <span>{message.receivedAt.hour}</span>
-                      <span>:</span>
-                      <span>{message.receivedAt.minute}</span>
-                    </span>
-                  </p>
-                  <h4 className="text-start text-xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-                    {message.subject}
-                  </h4>
-                  <p className="text-start text-sm text-primary">
-                    {message.senderAddress}
-                  </p>
+                  <SummaryTooltip
+                    message_id={message.id}
+                    isDisplayBottom={i < 5}
+                  >
+                    <p className="text-end text-sm text-primary flex gap-1 justify-end">
+                      <span className="flex gap-[0.15rem]">
+                        <span>{message.receivedAt.year}</span>
+                        <span>-</span>
+                        <span>{message.receivedAt.month}</span>
+                        <span>-</span>
+                        <span>{message.receivedAt.day}</span>
+                      </span>
+                      <span className="flex gap-[0.15rem]">
+                        <span>{message.receivedAt.hour}</span>
+                        <span>:</span>
+                        <span>{message.receivedAt.minute}</span>
+                      </span>
+                    </p>
+                    <h4 className="text-start text-xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
+                      {message.subject}
+                    </h4>
+                    <p className="text-start text-sm text-primary">
+                      {message.senderAddress}
+                    </p>
+                  </SummaryTooltip>
                 </Link>
                 {i !== messages.length - 1 && (
                   <Divider direction="horizontal" color="secondary" />
