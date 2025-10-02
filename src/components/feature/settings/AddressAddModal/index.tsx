@@ -29,8 +29,9 @@ const AddressAddModal: React.FC<Props> = ({ addresses, onSubmit }) => {
         <h3 className="text-2xl font-bold mb-3">新規アドレス追加</h3>
         <div className="flex flex-col gap-7 items-start min-w-72 mx-auto px-5">
           <div className="flex flex-col gap-5">
-            <Form.Label>address</Form.Label>
+            <Form.Label htmlFor="add-address-select">address</Form.Label>
             <Form.Select
+              id="add-address-select"
               label={'優先するアドレスを選択'}
               options={addresses.map((addr) => ({
                 id: addr.id,
@@ -44,8 +45,9 @@ const AddressAddModal: React.FC<Props> = ({ addresses, onSubmit }) => {
             />
           </div>
           <div className="flex flex-col gap-5">
-            <Form.Label>level</Form.Label>
+            <Form.Label htmlFor="add-address-level">level</Form.Label>
             <Form.Input
+              id="add-address-level"
               value={level}
               setValue={(val) => setLevel(Number(val))}
               min={PRIORITY_MIN_LEVEL}

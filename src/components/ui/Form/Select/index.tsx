@@ -31,6 +31,7 @@ type Props = {
   options: Option[];
   setSelectOption: (id: number) => void;
   label?: string | number;
+  id?: string;
   size?: Size;
   color?: Color;
   ghost?: boolean;
@@ -50,6 +51,7 @@ const Select: React.FC<Props> = ({
   ghost = false,
   osNative = false,
   className = '',
+  id,
 }) => {
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
@@ -59,6 +61,7 @@ const Select: React.FC<Props> = ({
 
   return (
     <select
+      id={id}
       defaultValue={label}
       className={cn(
         'select select-primary',

@@ -39,8 +39,12 @@ const EditModal: React.FC<Props> = ({ target, modalId, onSubmit }) => {
         </h3>
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-3">
-            <Form.Label>word: {target.label}</Form.Label>
+            <Form.Label htmlFor="edit-priority-level">
+              {modalId === DICTIONARY_MODAL_IDS.edit ? 'word' : 'address'}:{' '}
+              {target.label}
+            </Form.Label>
             <Form.Input
+              id="edit-priority-level"
               value={level}
               setValue={(val) => setLevel(Number(val))}
               min={PRIORITY_MIN_LEVEL}

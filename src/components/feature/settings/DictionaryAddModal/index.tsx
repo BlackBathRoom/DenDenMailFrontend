@@ -26,8 +26,9 @@ const DictionaryAddModal: React.FC<Props> = ({ onSubmit }) => {
       <Form onSubmit={handleAddSubmit} className="flex flex-col gap-7">
         <h3 className="text-2xl font-bold mb-3">新規単語追加</h3>
         <div className="flex flex-col gap-5">
-          <Form.Label>word</Form.Label>
+          <Form.Label htmlFor="add-dictionary-word">word</Form.Label>
           <Form.Input
+            id="add-dictionary-word"
             value={addContent}
             setValue={setAddContent}
             errorMessage="単語は1文字以上で入力してください"
@@ -36,8 +37,9 @@ const DictionaryAddModal: React.FC<Props> = ({ onSubmit }) => {
           />
         </div>
         <div className="flex flex-col gap-5">
-          <Form.Label>level</Form.Label>
+          <Form.Label htmlFor="add-dictionary-level">level</Form.Label>
           <Form.Input
+            id="add-dictionary-level"
             value={level}
             setValue={(val) => setLevel(Number(val))}
             min={PRIORITY_MIN_LEVEL}

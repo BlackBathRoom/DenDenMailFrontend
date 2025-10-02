@@ -3,6 +3,7 @@ import { cn } from '@/utils/cn';
 export type Props<T> = {
   value: T;
   setValue: (value: string) => void;
+  id?: string;
   min?: number;
   max?: number;
   minLength?: number;
@@ -22,6 +23,7 @@ const Input = <T extends string | number>({
   errorMessage = '',
   isRequired = false,
   className = '',
+  id,
 }: Props<T>) => {
   return (
     <div className="flex flex-col gap-1">
@@ -29,6 +31,7 @@ const Input = <T extends string | number>({
         type={typeof value === 'number' ? 'number' : 'text'}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        id={id}
         min={min}
         max={max}
         minLength={minLength}
