@@ -46,11 +46,8 @@ function RouteComponent() {
               </div>
               <DragAndDrop className="flex w-full flex-col gap-5">
                 {priorityDictionary.levels.map((level, i) => (
-                  <>
-                    <div
-                      key={level}
-                      className="flex w-full flex-col items-start gap-2"
-                    >
+                  <div key={level} className="contents">
+                    <div className="flex w-full flex-col items-start gap-2">
                       <h4 className="text-lg font-semibold">レベル {level}</h4>
                       <DragAndDrop.DropZone
                         className="flex w-full max-w-xl flex-col gap-5 rounded-lg border p-4"
@@ -95,7 +92,7 @@ function RouteComponent() {
                     {i < priorityDictionary.levels.length - 1 && (
                       <Divider direction="horizontal" color="accent" />
                     )}
-                  </>
+                  </div>
                 ))}
               </DragAndDrop>
             </Collapse.Content>
@@ -119,11 +116,8 @@ function RouteComponent() {
               </div>
               <DragAndDrop className="flex w-full flex-col gap-5">
                 {priorityAddress.levels.map((level, i) => (
-                  <>
-                    <div
-                      key={level}
-                      className="flex w-full flex-col items-start gap-2"
-                    >
+                  <div key={level} className="contents">
+                    <div className="flex w-full flex-col items-start gap-2">
                       <h4 className="text-lg font-semibold">レベル {level}</h4>
                       <DragAndDrop.DropZone
                         onDrop={(itemId: string) =>
@@ -172,7 +166,7 @@ function RouteComponent() {
                     {i < priorityAddress.levels.length - 1 && (
                       <Divider direction="horizontal" color="accent" />
                     )}
-                  </>
+                  </div>
                 ))}
               </DragAndDrop>
             </Collapse.Content>
