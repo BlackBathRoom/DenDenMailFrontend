@@ -5,7 +5,7 @@ import type {
 import { getRequest, postRequest } from '@/api/shared';
 
 const getSummary = async (id: number) =>
-  await getRequest<SummaryResponse>(`/summary/${id}`);
+  await getRequest<SummaryResponse>(`summary/${id}`);
 
 const createSummaryRequest = async (id: number) =>
   await postRequest<CreateSummaryRequestBody>('/summary/', { id });
