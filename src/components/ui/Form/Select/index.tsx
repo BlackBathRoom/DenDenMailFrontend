@@ -1,4 +1,4 @@
-import type { ChangeEvent } from 'react';
+import { type ChangeEvent } from 'react';
 
 import type { ClassMap, Color, Size } from '@/types/component';
 import { cn } from '@/utils/cn';
@@ -39,6 +39,8 @@ type Props = {
   className?: string;
 };
 
+const OPTION_DEFAULT_VALUE = 'select-default-value';
+
 const Select: React.FC<Props> = ({
   options,
   setSelectOption,
@@ -51,6 +53,7 @@ const Select: React.FC<Props> = ({
 }) => {
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
+    if (e.target.value === OPTION_DEFAULT_VALUE) return;
     setSelectOption(parseInt(e.target.value));
   };
 
@@ -65,12 +68,17 @@ const Select: React.FC<Props> = ({
         osNative && 'appearance-none',
         className
       )}
-      onChange={(e) => handleSelect(e)}
+      onChange={handleSelect}
+      required
     >
-      {label && <option disabled>{label}</option>}
+      {label && (
+        <option disabled value={OPTION_DEFAULT_VALUE}>
+          {label}
+        </option>
+      )}
       {options.map((option) => {
         return (
-          <option key={option.id} value={option.label}>
+          <option key={option.id} value={option.id}>
             {option.label}
           </option>
         );
