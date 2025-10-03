@@ -3,7 +3,12 @@ import type {
   RegisterPriorityDictionaryBody,
   UpdatePriorityDictionaryBody,
 } from '@/api/routers/rules/dictionaries/type';
-import { getRequest, patchRequest, postRequest } from '@/api/shared';
+import {
+  deleteRequest,
+  getRequest,
+  patchRequest,
+  postRequest,
+} from '@/api/shared';
 
 const getPriorityDictionaries =
   async (): Promise<GetPriorityDictionariesResponse> =>
@@ -30,7 +35,11 @@ const updatePriorityDictionary = async ({
     priority,
   });
 
+const deletePriorityDictionary = async (id: number) =>
+  await deleteRequest(`rules/dictionaries/${id}`);
+
 export {
+  deletePriorityDictionary,
   getPriorityDictionaries,
   registerPriorityDictionary,
   updatePriorityDictionary,

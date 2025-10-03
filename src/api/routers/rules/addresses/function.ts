@@ -3,7 +3,12 @@ import type {
   RegisterPriorityAddressBody,
   UpdatePriorityAddressBody,
 } from '@/api/routers/rules/addresses/type';
-import { getRequest, patchRequest, postRequest } from '@/api/shared';
+import {
+  deleteRequest,
+  getRequest,
+  patchRequest,
+  postRequest,
+} from '@/api/shared';
 
 const getPriorityAddresses = async (): Promise<GetPriorityAddressesResponse> =>
   await getRequest<GetPriorityAddressesResponse>('rules/addresses');
@@ -26,4 +31,12 @@ const updatePriorityAddress = async ({ id, priority }: UpdatePriorityAddress) =>
     priority,
   });
 
-export { getPriorityAddresses, registerPriorityAddress, updatePriorityAddress };
+const deletePriorityAddress = async (id: number) =>
+  await deleteRequest(`rules/addresses/${id}`);
+
+export {
+  deletePriorityAddress,
+  getPriorityAddresses,
+  registerPriorityAddress,
+  updatePriorityAddress,
+};

@@ -17,11 +17,8 @@ function RouteComponent() {
     priorityDictionary,
     modals: { addAddress, editAddress, addDictionary, editDictionary },
     updateFn,
+    deleteFn,
   } = useSettings();
-
-  const deleteFn = (content_id: number) => {
-    console.log('delete', content_id);
-  };
 
   return (
     <>
@@ -75,7 +72,7 @@ function RouteComponent() {
                                   </button>
                                   <button
                                     className="btn btn-square h-fit w-fit p-1 btn-error"
-                                    onClick={() => deleteFn(word.id)}
+                                    onClick={() => deleteFn.dictionary(word.id)}
                                   >
                                     <TrashIcon className="w-6 h-6" />
                                   </button>
@@ -144,7 +141,7 @@ function RouteComponent() {
                                   </button>
                                   <button
                                     className="btn btn-square h-fit w-fit p-1 btn-error"
-                                    onClick={() => deleteFn(addr.id)}
+                                    onClick={() => deleteFn.address(addr.id)}
                                   >
                                     <TrashIcon className="w-6 h-6" />
                                   </button>

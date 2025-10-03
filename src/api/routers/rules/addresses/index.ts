@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 
 import {
+  deletePriorityAddress,
   getPriorityAddresses,
   registerPriorityAddress,
   updatePriorityAddress,
@@ -41,8 +42,20 @@ const useUpdatePriorityAddress = () => {
   return mutate;
 };
 
+const useDeletePriorityAddress = () => {
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: deletePriorityAddress,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: addressesKeys.list() });
+    },
+  });
+  return mutate;
+};
+
 export {
   getPriorityAddressesOptions,
+  useDeletePriorityAddress,
   useRegisterPriorityAddress,
   useUpdatePriorityAddress,
 };

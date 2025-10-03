@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 
 import {
+  deletePriorityDictionary,
   getPriorityDictionaries,
   registerPriorityDictionary,
   updatePriorityDictionary,
@@ -41,8 +42,20 @@ const useUpdatePriorityDictionary = () => {
   return mutate;
 };
 
+const useDeletePriorityDictionary = () => {
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: deletePriorityDictionary,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: dictionariesKeys.list() });
+    },
+  });
+  return mutate;
+};
+
 export {
   getPriorityDictionaryOptions,
+  useDeletePriorityDictionary,
   useRegisterPriorityDictionary,
   useUpdatePriorityDictionary,
 };

@@ -13,11 +13,13 @@ import EditModal from '@/components/feature/settings/EditModal';
 import { getAddressesOptions } from '@/api/routers/messages/addresses';
 import {
   getPriorityAddressesOptions,
+  useDeletePriorityAddress,
   useRegisterPriorityAddress,
   useUpdatePriorityAddress,
 } from '@/api/routers/rules/addresses';
 import {
   getPriorityDictionaryOptions,
+  useDeletePriorityDictionary,
   useRegisterPriorityDictionary,
   useUpdatePriorityDictionary,
 } from '@/api/routers/rules/dictionaries';
@@ -46,6 +48,7 @@ type EditModal = {
 } & BaseModal;
 
 type UpdateFn = (id: number, level: number) => void;
+type DeleteFn = (id: number) => void;
 
 type Return = {
   priorityAddress: ContentSet<PriorityAddress>;
@@ -59,6 +62,10 @@ type Return = {
   updateFn: {
     address: UpdateFn;
     dictionary: UpdateFn;
+  };
+  deleteFn: {
+    address: DeleteFn;
+    dictionary: DeleteFn;
   };
 };
 
@@ -77,9 +84,11 @@ export const useSettings = (): Return => {
   // mutations
   const addAddressMutate = useRegisterPriorityAddress();
   const updateAddressMutate = useUpdatePriorityAddress();
+  const deleteAddressMutate = useDeletePriorityAddress();
 
   const addDictionaryMutate = useRegisterPriorityDictionary();
   const updateDictionaryMutate = useUpdatePriorityDictionary();
+  const deleteDictionaryMutate = useDeletePriorityDictionary();
 
   // modal functions
   const addAddressModal = useModal(ADDRESS_MODAL_IDS.add);
@@ -172,6 +181,10 @@ export const useSettings = (): Return => {
         updateAddressMutate({ id, priority: level }),
       dictionary: (id: number, level: number) =>
         updateDictionaryMutate({ id, priority: level }),
+    },
+    deleteFn: {
+      address: (id: number) => deleteAddressMutate(id),
+      dictionary: (id: number) => deleteDictionaryMutate(id),
     },
   };
 };
