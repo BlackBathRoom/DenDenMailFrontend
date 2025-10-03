@@ -33,6 +33,11 @@ interface GetMessagesHeaderQueryParams {
   limit?: number;
 }
 
+// request body
+interface SwitchReadStatusBody {
+  is_read: boolean;
+}
+
 // response
 type GetMessageHeaderResponse = MessageHeaderDTO[];
 type GetMessageBodyResponse = MessageBodyDTO;
@@ -41,4 +46,5 @@ export type {
   GetMessageBodyResponse,
   GetMessageHeaderResponse,
   GetMessagesHeaderQueryParams,
+  SwitchReadStatusBody,
 };

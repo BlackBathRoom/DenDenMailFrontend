@@ -1,8 +1,13 @@
-import { queryOptions } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import {
   getMessageBody,
   getMessagesHeader,
+  switchReadStatus,
 } from '@/api/routers/messages/function';
 import { messagesKeys } from '@/api/routers/messages/key';
 import {
@@ -10,6 +15,13 @@ import {
   getMessagesHeaderSelector,
 } from '@/api/routers/messages/selector';
 import type { GetMessagesHeaderQueryParams } from '@/api/routers/messages/type';
+
+type Args = {
+  vendorId: number;
+  folderId: number;
+  messageId: number;
+  isRead: boolean;
+};
 
 const getMessagesInfoOptions = (
   vendor_id: number,
@@ -39,4 +51,30 @@ const getMessageDetailOptions = (
     select: getMessageBodySelector,
   });
 
-export { getMessageDetailOptions, getMessagesInfoOptions };
+const useSwitchReadStatus = () => {
+  const queryClient = useQueryClient();
+  const { mutate, variables } = useMutation({
+    mutationFn: async (arg: Args) =>
+      await switchReadStatus(
+        arg.vendorId,
+        arg.folderId,
+        arg.messageId,
+        arg.isRead
+      ),
+    onSuccess: (_, arg) => {
+      queryClient.invalidateQueries({
+        queryKey: messagesKeys.list(arg.vendorId, arg.folderId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: messagesKeys.detail(
+          arg.vendorId,
+          arg.folderId,
+          arg.messageId
+        ),
+      });
+    },
+  });
+  return { mutate, variables };
+};
+
+export { getMessageDetailOptions, getMessagesInfoOptions, useSwitchReadStatus };

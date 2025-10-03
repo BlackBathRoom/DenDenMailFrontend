@@ -210,6 +210,11 @@ function RouteComponent() {
                       subject={message.subject}
                       senderAddress={message.senderAddress}
                       isUnread={!message.isRead}
+                      routerInfo={{
+                        vendorId,
+                        folderId,
+                        messageId: message.id,
+                      }}
                     />
                   </SummaryTooltip>
                 </Link>

@@ -2,8 +2,9 @@ import type {
   GetMessageBodyResponse,
   GetMessageHeaderResponse,
   GetMessagesHeaderQueryParams,
+  SwitchReadStatusBody,
 } from '@/api/routers/messages/type';
-import { getRequest } from '@/api/shared';
+import { getRequest, patchRequest } from '@/api/shared';
 
 const getMessagesHeader = async (
   vendor_id: number,
@@ -23,4 +24,15 @@ const getMessageBody = async (
     `messages/${vendor_id}/${folder_id}/${message_id}`
   );
 
-export { getMessageBody, getMessagesHeader };
+const switchReadStatus = async (
+  vendor_id: number,
+  folder_id: number,
+  message_id: number,
+  is_read: boolean
+) =>
+  await patchRequest<SwitchReadStatusBody>(
+    `messages/${vendor_id}/${folder_id}/${message_id}/read`,
+    { is_read }
+  );
+
+export { getMessageBody, getMessagesHeader, switchReadStatus };
