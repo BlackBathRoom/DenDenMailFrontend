@@ -3,6 +3,7 @@ import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
 import { ChevronLeft, ChevronRight, ListFilter } from 'lucide-react';
 
 import { useModal } from '@/hooks/useModal';
+import MessageOverview from '@/components/feature/home/MessageOverview';
 import SummaryTooltip from '@/components/feature/home/SummaryTooltip';
 import Divider from '@/components/layout/Divider';
 import Modal from '@/components/ui/Modal';
@@ -204,26 +205,12 @@ function RouteComponent() {
                     message_id={message.id}
                     isDisplayBottom={i < 5}
                   >
-                    <p className="text-end text-sm text-primary flex gap-1 justify-end">
-                      <span className="flex gap-[0.15rem]">
-                        <span>{message.receivedAt.year}</span>
-                        <span>-</span>
-                        <span>{message.receivedAt.month}</span>
-                        <span>-</span>
-                        <span>{message.receivedAt.day}</span>
-                      </span>
-                      <span className="flex gap-[0.15rem]">
-                        <span>{message.receivedAt.hour}</span>
-                        <span>:</span>
-                        <span>{message.receivedAt.minute}</span>
-                      </span>
-                    </p>
-                    <h4 className="text-start text-xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-                      {message.subject}
-                    </h4>
-                    <p className="text-start text-sm text-primary">
-                      {message.senderAddress}
-                    </p>
+                    <MessageOverview
+                      receivedAt={message.receivedAt}
+                      subject={message.subject}
+                      senderAddress={message.senderAddress}
+                      isUnread={!message.isRead}
+                    />
                   </SummaryTooltip>
                 </Link>
                 {i !== messages.length - 1 && (
