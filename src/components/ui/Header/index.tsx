@@ -1,11 +1,8 @@
 import { Link } from '@tanstack/react-router';
 
-import { useTheme } from '@/hooks/useTheme';
 import Panel from '@/components/ui/Panel';
 
 const Header: React.FC = () => {
-  const { toggleTheme } = useTheme();
-
   return (
     <Panel className="h-fit w-full px-13 py-4">
       <div className="flex items-center gap-9">
@@ -15,10 +12,6 @@ const Header: React.FC = () => {
         <Link to="/settings" className="text-3xl">
           設定
         </Link>
-        {/* only development */}
-        <button className="btn btn-ghost btn-sm" onClick={toggleTheme}>
-          <span className="material-symbols-outlined">toggle_theme</span>
-        </button>
       </div>
     </Panel>
   );
