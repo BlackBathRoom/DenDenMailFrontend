@@ -37,7 +37,9 @@ function RouteComponent() {
               優先辞書登録
             </Collapse.Title>
             <Collapse.Content className="p-4 flex flex-col gap-4">
-              <Button color="primary">+ 新しい単語を追加</Button>
+              <Button color="primary" onClick={addDictionary.open}>
+                + 新しい単語を追加
+              </Button>
               <DragAndDrop className="flex w-full flex-col gap-5">
                 {priorityDictionary.levels.map((level, i) => (
                   <div key={level} className="contents">
@@ -100,7 +102,9 @@ function RouteComponent() {
               優先アドレス登録
             </Collapse.Title>
             <Collapse.Content className="p-4 flex flex-col gap-4">
-              <Button color="primary">+ 新しいアドレスを追加</Button>
+              <Button color="primary" onClick={addAddress.open}>
+                + 新しいアドレスを追加
+              </Button>
               <DragAndDrop className="flex w-full flex-col gap-5">
                 {priorityAddress.levels.map((level, i) => (
                   <div key={level} className="contents">
