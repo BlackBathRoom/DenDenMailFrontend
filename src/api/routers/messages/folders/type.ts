@@ -10,6 +10,7 @@ interface FolderDTO extends BaseDTO {
 interface GetFoldersQueryParams {
   vendor_id?: number;
   is_read?: boolean;
+  only_priority_person?: boolean;
 }
 
 // response

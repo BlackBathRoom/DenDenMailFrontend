@@ -33,6 +33,8 @@ const resolveQueryParams = (
 const paramsSchema = z.object({
   isRead: z.boolean().nullable().default(null),
   page: z.number().min(1).default(1),
+  priorityPerson: z.boolean().default(false),
+  orderBy: z.enum(['dateReceived', 'priorityPerson']).default('dateReceived'),
 });
 
 export { clampPage, paramsSchema, resolveQueryParams };

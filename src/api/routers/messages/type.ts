@@ -31,6 +31,8 @@ interface GetMessagesHeaderQueryParams {
   is_read?: boolean;
   offset?: number;
   limit?: number;
+  only_priority_person?: boolean;
+  order_by?: 'date_received' | 'priority_person';
 }
 
 // request body

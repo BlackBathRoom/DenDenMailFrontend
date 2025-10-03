@@ -9,6 +9,8 @@ type DateTime = {
   hour: string;
   /** 分 (ゼロパディング2桁) */
   minute: string;
+
+  deserialize: () => string; // "YYYY-MM-DDTHH:mm"
 };
 
 type MessageInfo = {

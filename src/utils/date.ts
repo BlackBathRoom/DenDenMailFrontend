@@ -21,5 +21,6 @@ export const parseDateTime = (dateTimeString: string): DateTime => {
     day: d.format('DD'),
     hour: d.format('HH'),
     minute: d.format('mm'),
+    deserialize: () => dateTimeString,
   };
 };

@@ -1,6 +1,11 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
-import { ChevronLeft, ChevronRight, ListFilter } from 'lucide-react';
+import {
+  ArrowDownUp,
+  ChevronLeft,
+  ChevronRight,
+  ListFilter,
+} from 'lucide-react';
 
 import { useModal } from '@/hooks/useModal';
 import MessageOverview from '@/components/feature/home/MessageOverview';
@@ -27,17 +32,20 @@ export const Route = createFileRoute(
   loaderDeps: ({ search }) => ({
     isRead: search.isRead,
     page: search.page,
+    priorityPerson: search.priorityPerson,
+    orderBy: search.orderBy,
   }),
   loader: async ({
     params: { vendorId, folderId },
     context: { queryClient },
-    deps: { isRead, page },
+    deps: { isRead, page, priorityPerson, orderBy },
   }) => {
     const folders = getFoldersSelector(
       await queryClient.ensureQueryData(
         getFoldersOptions({
           vendor_id: parseInt(vendorId),
           is_read: isRead ?? undefined,
+          only_priority_person: priorityPerson,
         })
       )
     );
@@ -46,12 +54,13 @@ export const Route = createFileRoute(
     )?.messageCount;
 
     const queryParams = resolveQueryParams(isRead, page, messageCount);
-    return queryClient.ensureQueryData(
-      getMessagesInfoOptions(
-        parseInt(vendorId),
-        parseInt(folderId),
-        queryParams
-      )
+    return await queryClient.ensureQueryData(
+      getMessagesInfoOptions(parseInt(vendorId), parseInt(folderId), {
+        ...queryParams,
+        only_priority_person: priorityPerson,
+        order_by:
+          orderBy === 'dateReceived' ? 'date_received' : 'priority_person',
+      })
     );
   },
   component: RouteComponent,
@@ -61,8 +70,11 @@ function RouteComponent() {
   const params = Route.useParams();
   const search = Route.useSearch();
 
-  const modalId = 'filter-modal';
-  const { openModal, closeModal } = useModal(modalId);
+  const filterModalId = 'filter-modal';
+  const filterModal = useModal(filterModalId);
+
+  const sortModalId = 'order-modal';
+  const sortModal = useModal(sortModalId);
 
   const vendorId = parseInt(params.vendorId);
   const folderId = parseInt(params.folderId);
@@ -72,6 +84,7 @@ function RouteComponent() {
     getFoldersOptions({
       vendor_id: vendorId,
       is_read: search.isRead ?? undefined,
+      only_priority_person: search.priorityPerson,
     })
   );
 
@@ -81,7 +94,12 @@ function RouteComponent() {
     folders.find((f) => f.id === folderId)?.messageCount
   );
   const { data: messages } = useSuspenseQuery(
-    getMessagesInfoOptions(vendorId, folderId, queryParams)
+    getMessagesInfoOptions(vendorId, folderId, {
+      ...queryParams,
+      only_priority_person: search.priorityPerson,
+      order_by:
+        search.orderBy === 'dateReceived' ? 'date_received' : 'priority_person',
+    })
   );
 
   const safePage = clampPage(
@@ -128,26 +146,25 @@ function RouteComponent() {
           </h3>
           <div className="w-full flex justify-between px-3 pb-2">
             <div className="flex gap-2 text-lg pt-[0.35rem]">
-              <button className="hover:text-primary" onClick={openModal}>
-                <ListFilter className="h-5 w-5" />
+              <button onClick={filterModal.openModal}>
+                <ListFilter
+                  className={cn(
+                    'h-5 w-5 hover:text-accent',
+                    search.isRead !== null && 'text-accent',
+                    search.priorityPerson && 'text-accent'
+                  )}
+                />
               </button>
-              <p className="flex gap-1">
-                <span>
-                  {Math.min(
-                    (search.page - 1) * PAGE_PER_MESSAGE + 1,
-                    folders.find((f) => f.id === folderId)?.messageCount ?? 0
+              <button onClick={sortModal.openModal}>
+                <ArrowDownUp
+                  className={cn(
+                    'h-5 w-5 hover:text-accent',
+                    search.orderBy !== 'dateReceived' && 'text-accent'
                   )}
-                </span>
-                <span>-</span>
-                <span>
-                  {Math.min(
-                    search.page * PAGE_PER_MESSAGE,
-                    folders.find((f) => f.id === folderId)?.messageCount ?? 0
-                  )}
-                </span>
-              </p>
+                />
+              </button>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-[0.125rem]">
               <Link
                 to="/home/vendors/$vendorId/folders/$folderId/messages"
                 params={{
@@ -166,6 +183,21 @@ function RouteComponent() {
               >
                 <ChevronLeft className="h-4 w-4" />
               </Link>
+              <p className="flex gap-[0.125rem] items-center pb-[0.1rem]">
+                <span>
+                  {Math.min(
+                    (search.page - 1) * PAGE_PER_MESSAGE + 1,
+                    folders.find((f) => f.id === folderId)?.messageCount ?? 0
+                  )}
+                </span>
+                <span>-</span>
+                <span>
+                  {Math.min(
+                    search.page * PAGE_PER_MESSAGE,
+                    folders.find((f) => f.id === folderId)?.messageCount ?? 0
+                  )}
+                </span>
+              </p>
               <Link
                 to="/home/vendors/$vendorId/folders/$folderId/messages"
                 params={{
@@ -227,14 +259,14 @@ function RouteComponent() {
         </div>
       </Panel>
       <Modal
-        modalId={modalId}
-        className="flex flex-col gap-5 items-start px-5 py-4 "
+        modalId={filterModalId}
+        className="flex flex-col gap-7 items-start px-10 py-5 "
       >
-        <h3 className="text-2xl font-bold mb-3">Filter</h3>
-        <div className="w-full px-2 flex flex-col gap-3">
-          <div className="flex flex-col gap-1">
-            <h4 className="text-lg font-semibold">Read Status</h4>
-            <div className="flex gap-0">
+        <h3 className="text-4xl font-bold">Filter</h3>
+        <div className="w-full px-2 flex flex-col gap-7">
+          <div className="flex flex-col gap-5">
+            <h4 className="text-2xl font-semibold">Read Status</h4>
+            <div className="join join-horizontal mx-auto">
               {['All', 'Read', 'UnRead'].map((value) => (
                 <Link
                   key={value}
@@ -249,7 +281,7 @@ function RouteComponent() {
                     page: 1,
                   })}
                   className={cn(
-                    'btn btn-md btn-outline btn-primary',
+                    'btn btn-md btn-outline btn-primary join-item',
                     value === 'All' &&
                       (search.isRead === undefined || search.isRead === null) &&
                       'btn-active',
@@ -258,12 +290,83 @@ function RouteComponent() {
                       search.isRead === false &&
                       'btn-active'
                   )}
-                  onClick={closeModal}
+                  onClick={filterModal.closeModal}
                 >
                   {value}
                 </Link>
               ))}
             </div>
+          </div>
+          <div className="flex flex-col gap-5">
+            <h4 className="text-2xl font-semibold">Priority Address</h4>
+            <div className="join join-horizontal mx-auto">
+              {['Adapt', 'Non-Adapt'].map((value) => (
+                <Link
+                  key={value}
+                  to="/home/vendors/$vendorId/folders/$folderId/messages"
+                  params={{
+                    vendorId: vendorId.toString(),
+                    folderId: folderId.toString(),
+                  }}
+                  search={(old) => ({
+                    ...old,
+                    priorityPerson: value === 'Adapt',
+                    page: 1,
+                  })}
+                  className={cn(
+                    'btn btn-md btn-outline btn-primary join-item',
+                    search.priorityPerson === (value === 'Adapt') &&
+                      'btn-active'
+                  )}
+                  onClick={filterModal.closeModal}
+                >
+                  {value}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        modalId={sortModalId}
+        className="flex flex-col gap-7 items-start px-10 py-5 "
+      >
+        <h3 className="text-4xl font-bold">Sort</h3>
+        <div className="flex flex-col gap-5">
+          <h4 className="text-2xl font-semibold">Priority Address</h4>
+          <div className="join join-horizontal mx-auto">
+            {['Enable', 'Disable'].map((value) => (
+              <button
+                key={value}
+                disabled={!search.priorityPerson}
+                className={cn(
+                  'btn btn-md btn-outline btn-primary join-item',
+                  value === 'Enable' &&
+                    search.orderBy === 'priorityPerson' &&
+                    'btn-active',
+                  value === 'Disable' &&
+                    search.orderBy !== 'priorityPerson' &&
+                    'btn-active'
+                )}
+                onClick={sortModal.closeModal}
+              >
+                <Link
+                  to="/home/vendors/$vendorId/folders/$folderId/messages"
+                  params={{
+                    vendorId: vendorId.toString(),
+                    folderId: folderId.toString(),
+                  }}
+                  search={(old) => ({
+                    ...old,
+                    orderBy:
+                      value === 'Enable' ? 'priorityPerson' : 'dateReceived',
+                    page: 1,
+                  })}
+                >
+                  {value}
+                </Link>
+              </button>
+            ))}
           </div>
         </div>
       </Modal>
