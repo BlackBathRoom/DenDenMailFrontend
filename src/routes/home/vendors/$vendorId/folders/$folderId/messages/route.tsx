@@ -34,7 +34,10 @@ export const Route = createFileRoute(
   }) => {
     const folders = getFoldersSelector(
       await queryClient.ensureQueryData(
-        getFoldersOptions({ vendor_id: parseInt(vendorId) })
+        getFoldersOptions({
+          vendor_id: parseInt(vendorId),
+          is_read: isRead ?? undefined,
+        })
       )
     );
     const messageCount = folders.find(
@@ -65,7 +68,10 @@ function RouteComponent() {
 
   const { data: vendors } = useSuspenseQuery(getVendorsOptions());
   const { data: folders } = useSuspenseQuery(
-    getFoldersOptions({ vendor_id: vendorId })
+    getFoldersOptions({
+      vendor_id: vendorId,
+      is_read: search.isRead ?? undefined,
+    })
   );
 
   const queryParams = resolveQueryParams(
