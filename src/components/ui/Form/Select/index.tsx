@@ -40,8 +40,6 @@ type Props = {
   className?: string;
 };
 
-const OPTION_DEFAULT_VALUE = 'select-default-value';
-
 const Select: React.FC<Props> = ({
   options,
   setSelectOption,
@@ -55,7 +53,7 @@ const Select: React.FC<Props> = ({
 }) => {
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
-    if (e.target.value === OPTION_DEFAULT_VALUE) return;
+    if (e.target.value === label) return;
     setSelectOption(parseInt(e.target.value));
   };
 
@@ -75,7 +73,7 @@ const Select: React.FC<Props> = ({
       required
     >
       {label && (
-        <option disabled value={OPTION_DEFAULT_VALUE}>
+        <option disabled value={label}>
           {label}
         </option>
       )}
