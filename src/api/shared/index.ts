@@ -50,6 +50,11 @@ const postRequest = async <T>(
   return await axiosRequest(endpoint, 'POST', { data, headers, ...config });
 };
 
+const deleteRequest = async (
+  endpoint: string,
+  config: AxiosRequestConfig = {}
+) => await axiosRequest(endpoint, 'DELETE', config);
+
 const patchRequest = async <T>(
   endpoint: string,
   data: T,
@@ -61,5 +66,5 @@ const patchRequest = async <T>(
   return await axiosRequest(endpoint, 'PATCH', { data, headers, ...config });
 };
 
-export { getRequest, patchRequest, postRequest };
+export { deleteRequest, getRequest, patchRequest, postRequest };
 export type { BaseDTO, BasePriority };
