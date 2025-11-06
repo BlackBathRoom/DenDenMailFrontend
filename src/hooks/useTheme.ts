@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 
 const DAISYUI_MODE_THEMES = {
   light: 'lemonade',
@@ -30,9 +30,6 @@ const getStoredTheme = (): Theme => {
   return 'system';
 };
 
-const resolveTheme = (theme: Theme): ResolvedTheme =>
-  theme === 'system' ? getSystemTheme() : theme;
-
 const mapThemeToDaisyUI = (theme: ResolvedTheme): string =>
   DAISYUI_MODE_THEMES[theme];
 
@@ -45,9 +42,20 @@ type Return = {
 
 export const useTheme = (): Return => {
   const [theme, setThemeState] = useState<Theme>(() => getStoredTheme());
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
-    resolveTheme(getStoredTheme())
+
+  const systemTheme = useSyncExternalStore<ResolvedTheme>(
+    (onStoreChange) => {
+      if (typeof window === 'undefined') return () => {};
+      const media = window.matchMedia('(prefers-color-scheme: dark)');
+      const handler = () => onStoreChange();
+      media.addEventListener('change', handler);
+      return () => media.removeEventListener('change', handler);
+    },
+    () => getSystemTheme(),
+    () => 'light'
   );
+
+  const resolvedTheme: ResolvedTheme = theme === 'system' ? systemTheme : theme;
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
@@ -65,30 +73,11 @@ export const useTheme = (): Return => {
   };
 
   useEffect(() => {
-    const resolved = resolveTheme(theme);
-    setResolvedTheme(resolved);
     document.documentElement.setAttribute(
       'data-theme',
-      mapThemeToDaisyUI(resolved)
+      mapThemeToDaisyUI(resolvedTheme)
     );
-  }, [theme]);
-
-  useEffect(() => {
-    if (theme !== 'system') return;
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => {
-      const resolved = resolveTheme('system');
-      setResolvedTheme(resolved);
-      document.documentElement.setAttribute(
-        'data-theme',
-        mapThemeToDaisyUI(resolved)
-      );
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [theme]);
+  }, [resolvedTheme]);
 
   return {
     theme,
