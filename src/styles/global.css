@@ -5,6 +5,46 @@
     coffee --prefersdark;
 }
 
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  src: url('/Zen_Maru_Gothic/ZenMaruGothic-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  src: url('/Zen_Maru_Gothic/ZenMaruGothic-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  src: url('/Zen_Maru_Gothic/ZenMaruGothic-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  src: url('/Zen_Maru_Gothic/ZenMaruGothic-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  src: url('/Zen_Maru_Gothic/ZenMaruGothic-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Overlay color variables (light/dark) */
 :root {
   /* Light mode: 現状維持（薄い白） */
@@ -57,4 +97,5 @@ body,
 body {
   /* Use Tailwind utilities via apply where possible */
   @apply min-h-screen bg-app bg-fixed;
+  font-family: 'Zen Maru Gothic', 'Hiragino Sans', 'Yu Gothic', sans-serif;
 }
