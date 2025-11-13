@@ -1,17 +1,9 @@
 import MessageOverview from '@/components/feature/home/MessageOverview';
 import Panel from '@/components/ui/Panel';
-import type { DateTime } from '@/types';
-
-type Message = {
-  id: number;
-  subject: string;
-  senderAddress: string;
-  receivedAt: DateTime;
-  isRead: boolean;
-};
+import type { MessageInfo } from '@/types';
 
 type Props = {
-  messages: Message[];
+  messages: MessageInfo[];
   selectedMessageId: number | null;
   searchQuery: string;
   onMessageSelect: (messageId: number) => void;
