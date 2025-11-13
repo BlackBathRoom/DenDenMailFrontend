@@ -1,16 +1,8 @@
 import Panel from '@/components/ui/Panel';
-import type { DateTime } from '@/types';
-
-type Message = {
-  id: number;
-  subject: string;
-  senderAddress: string;
-  receivedAt: DateTime;
-  isRead: boolean;
-};
+import type { MessageDetail } from '@/types';
 
 type Props = {
-  selectedMessage: Message | null;
+  selectedMessage: MessageDetail | null;
 };
 
 const MessageContent: React.FC<Props> = ({ selectedMessage }) => {
@@ -23,31 +15,35 @@ const MessageContent: React.FC<Props> = ({ selectedMessage }) => {
           </div>
 
           <div className="flex-1 min-h-0 overflow-y-auto">
-            {selectedMessage ? (
+            {selectedMessage?.messageInfo ? (
               <div className="flex flex-col gap-4">
                 <div className="border-b border-neutral-200 pb-4">
                   <h3 className="text-lg font-semibold mb-2">
-                    {selectedMessage.subject}
+                    {selectedMessage.messageInfo.subject || '件名なし'}
                   </h3>
                   <div className="text-sm text-neutral-600 space-y-1">
                     <p>
                       <span className="font-medium">送信者:</span>{' '}
-                      {selectedMessage.senderAddress}
+                      {selectedMessage.messageInfo.senderAddress || '不明'}
                     </p>
                     <p>
                       <span className="font-medium">受信日時:</span>{' '}
-                      {selectedMessage.receivedAt
-                        ? selectedMessage.receivedAt.toLocaleString()
-                        : '不明'}
+                      {selectedMessage.messageInfo.receivedAt?.deserialize?.() ||
+                        '不明'}
                     </p>
                   </div>
                 </div>
 
                 <div className="prose prose-sm max-w-none">
-                  <p className="text-neutral-600">
-                    メール本文はここに表示されます。
-                    現在はプレビュー表示のみとなっています。
-                  </p>
+                  {selectedMessage.textBody ? (
+                    <div className="text-neutral-400 whitespace-pre-wrap leading-relaxed">
+                      {selectedMessage.textBody}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-neutral-500">
+                      メール本文がありません
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (

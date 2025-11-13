@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
-import { getMessagesInfoOptions } from '@/api/routers/messages';
+import {
+  getMessageDetailOptions,
+  getMessagesInfoOptions,
+} from '@/api/routers/messages';
 
 export const useSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,16 +27,35 @@ export const useSearch = () => {
     );
   }, [messages, searchQuery]);
 
-  const selectedMessage = useMemo(() => {
-    return (
-      filteredMessages.find((message) => message.id === selectedMessageId) ||
-      null
-    );
+  const autoSelectedMessageId = useMemo(() => {
+    if (filteredMessages.length === 0) {
+      return null;
+    }
+
+    if (
+      selectedMessageId &&
+      filteredMessages.some((msg) => msg.id === selectedMessageId)
+    ) {
+      return selectedMessageId;
+    }
+
+    return filteredMessages[0].id;
   }, [filteredMessages, selectedMessageId]);
+
+  // 条件付きクエリにはuseQueryを使用
+  const { data: selectedMessageDetail } = useQuery({
+    ...getMessageDetailOptions(1, 1, autoSelectedMessageId || 0),
+    enabled: autoSelectedMessageId !== null,
+  });
+
+  const selectedMessage = useMemo(() => {
+    return autoSelectedMessageId && selectedMessageDetail
+      ? selectedMessageDetail
+      : null;
+  }, [autoSelectedMessageId, selectedMessageDetail]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    setSelectedMessageId(null);
   };
 
   const handleMessageSelect = (messageId: number) => {
@@ -42,7 +64,7 @@ export const useSearch = () => {
 
   return {
     searchQuery,
-    selectedMessageId,
+    selectedMessageId: autoSelectedMessageId,
     filteredMessages,
     selectedMessage,
     handleSearchChange,
