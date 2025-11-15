@@ -12,6 +12,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
+import { Route as SearchRouteRouteImport } from './routes/search/route'
 import { Route as HomeRouteRouteImport } from './routes/home/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HomeVendorsRouteRouteImport } from './routes/home/vendors/route'
@@ -20,6 +21,7 @@ import { Route as HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteImport } f
 import { Route as HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRouteImport } from './routes/home/vendors/$vendorId/folders/$folderId/messages/$messageId/index'
 
 const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
+const SearchIndexLazyRouteImport = createFileRoute('/search/')()
 const HomeVendorsIndexLazyRouteImport = createFileRoute('/home/vendors/')()
 const HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRouteImport =
   createFileRoute('/home/vendors/$vendorId/folders/$folderId/messages/')()
@@ -27,6 +29,11 @@ const HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRouteImport =
 const SettingsRouteRoute = SettingsRouteRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRouteRoute = SearchRouteRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRouteRoute = HomeRouteRouteImport.update({
@@ -46,6 +53,11 @@ const SettingsIndexLazyRoute = SettingsIndexLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/settings/index.lazy').then((d) => d.Route),
 )
+const SearchIndexLazyRoute = SearchIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SearchRouteRoute,
+} as any).lazy(() => import('./routes/search/index.lazy').then((d) => d.Route))
 const HomeVendorsRouteRoute = HomeVendorsRouteRouteImport.update({
   id: '/vendors',
   path: '/vendors',
@@ -90,8 +102,10 @@ const HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/home': typeof HomeRouteRouteWithChildren
+  '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
   '/home/vendors': typeof HomeVendorsRouteRouteWithChildren
+  '/search/': typeof SearchIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/home/vendors/': typeof HomeVendorsIndexLazyRoute
   '/home/vendors/$vendorId/folders': typeof HomeVendorsVendorIdFoldersIndexRoute
@@ -102,6 +116,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/home': typeof HomeRouteRouteWithChildren
+  '/search': typeof SearchIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
   '/home/vendors': typeof HomeVendorsIndexLazyRoute
   '/home/vendors/$vendorId/folders': typeof HomeVendorsVendorIdFoldersIndexRoute
@@ -112,8 +127,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/home': typeof HomeRouteRouteWithChildren
+  '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
   '/home/vendors': typeof HomeVendorsRouteRouteWithChildren
+  '/search/': typeof SearchIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/home/vendors/': typeof HomeVendorsIndexLazyRoute
   '/home/vendors/$vendorId/folders/': typeof HomeVendorsVendorIdFoldersIndexRoute
@@ -126,8 +143,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/home'
+    | '/search'
     | '/settings'
     | '/home/vendors'
+    | '/search/'
     | '/settings/'
     | '/home/vendors/'
     | '/home/vendors/$vendorId/folders'
@@ -138,6 +157,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/home'
+    | '/search'
     | '/settings'
     | '/home/vendors'
     | '/home/vendors/$vendorId/folders'
@@ -147,8 +167,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/home'
+    | '/search'
     | '/settings'
     | '/home/vendors'
+    | '/search/'
     | '/settings/'
     | '/home/vendors/'
     | '/home/vendors/$vendorId/folders/'
@@ -160,6 +182,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HomeRouteRoute: typeof HomeRouteRouteWithChildren
+  SearchRouteRoute: typeof SearchRouteRouteWithChildren
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
 }
 
@@ -170,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home': {
@@ -192,6 +222,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexLazyRouteImport
       parentRoute: typeof SettingsRouteRoute
+    }
+    '/search/': {
+      id: '/search/'
+      path: '/'
+      fullPath: '/search/'
+      preLoaderRoute: typeof SearchIndexLazyRouteImport
+      parentRoute: typeof SearchRouteRoute
     }
     '/home/vendors': {
       id: '/home/vendors'
@@ -284,6 +321,18 @@ const HomeRouteRouteWithChildren = HomeRouteRoute._addFileChildren(
   HomeRouteRouteChildren,
 )
 
+interface SearchRouteRouteChildren {
+  SearchIndexLazyRoute: typeof SearchIndexLazyRoute
+}
+
+const SearchRouteRouteChildren: SearchRouteRouteChildren = {
+  SearchIndexLazyRoute: SearchIndexLazyRoute,
+}
+
+const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
+  SearchRouteRouteChildren,
+)
+
 interface SettingsRouteRouteChildren {
   SettingsIndexLazyRoute: typeof SettingsIndexLazyRoute
 }
@@ -299,6 +348,7 @@ const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HomeRouteRoute: HomeRouteRouteWithChildren,
+  SearchRouteRoute: SearchRouteRouteWithChildren,
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport

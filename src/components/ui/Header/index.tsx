@@ -9,6 +9,9 @@ const Header: React.FC = () => {
         <Link to="/" className="text-3xl">
           ホーム
         </Link>
+        <Link to="/search" className="text-3xl">
+          検索
+        </Link>
         <Link to="/settings" className="text-3xl">
           設定
         </Link>
