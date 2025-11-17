@@ -14,6 +14,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as SearchRouteRouteImport } from './routes/search/route'
 import { Route as HomeRouteRouteImport } from './routes/home/route'
+import { Route as ChatRouteRouteImport } from './routes/chat/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HomeVendorsRouteRouteImport } from './routes/home/vendors/route'
 import { Route as HomeVendorsVendorIdFoldersIndexRouteImport } from './routes/home/vendors/$vendorId/folders/index'
@@ -22,6 +23,7 @@ import { Route as HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRouteI
 
 const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
 const SearchIndexLazyRouteImport = createFileRoute('/search/')()
+const ChatIndexLazyRouteImport = createFileRoute('/chat/')()
 const HomeVendorsIndexLazyRouteImport = createFileRoute('/home/vendors/')()
 const HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRouteImport =
   createFileRoute('/home/vendors/$vendorId/folders/$folderId/messages/')()
@@ -41,6 +43,11 @@ const HomeRouteRoute = HomeRouteRouteImport.update({
   path: '/home',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatRouteRoute = ChatRouteRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -58,6 +65,11 @@ const SearchIndexLazyRoute = SearchIndexLazyRouteImport.update({
   path: '/',
   getParentRoute: () => SearchRouteRoute,
 } as any).lazy(() => import('./routes/search/index.lazy').then((d) => d.Route))
+const ChatIndexLazyRoute = ChatIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ChatRouteRoute,
+} as any).lazy(() => import('./routes/chat/index.lazy').then((d) => d.Route))
 const HomeVendorsRouteRoute = HomeVendorsRouteRouteImport.update({
   id: '/vendors',
   path: '/vendors',
@@ -101,10 +113,12 @@ const HomeVendorsVendorIdFoldersFolderIdMessagesMessageIdIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRouteRouteWithChildren
   '/home': typeof HomeRouteRouteWithChildren
   '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
   '/home/vendors': typeof HomeVendorsRouteRouteWithChildren
+  '/chat/': typeof ChatIndexLazyRoute
   '/search/': typeof SearchIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/home/vendors/': typeof HomeVendorsIndexLazyRoute
@@ -116,6 +130,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/home': typeof HomeRouteRouteWithChildren
+  '/chat': typeof ChatIndexLazyRoute
   '/search': typeof SearchIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
   '/home/vendors': typeof HomeVendorsIndexLazyRoute
@@ -126,10 +141,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat': typeof ChatRouteRouteWithChildren
   '/home': typeof HomeRouteRouteWithChildren
   '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
   '/home/vendors': typeof HomeVendorsRouteRouteWithChildren
+  '/chat/': typeof ChatIndexLazyRoute
   '/search/': typeof SearchIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/home/vendors/': typeof HomeVendorsIndexLazyRoute
@@ -142,10 +159,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/chat'
     | '/home'
     | '/search'
     | '/settings'
     | '/home/vendors'
+    | '/chat/'
     | '/search/'
     | '/settings/'
     | '/home/vendors/'
@@ -157,6 +176,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/home'
+    | '/chat'
     | '/search'
     | '/settings'
     | '/home/vendors'
@@ -166,10 +186,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/chat'
     | '/home'
     | '/search'
     | '/settings'
     | '/home/vendors'
+    | '/chat/'
     | '/search/'
     | '/settings/'
     | '/home/vendors/'
@@ -181,6 +203,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatRouteRoute: typeof ChatRouteRouteWithChildren
   HomeRouteRoute: typeof HomeRouteRouteWithChildren
   SearchRouteRoute: typeof SearchRouteRouteWithChildren
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
@@ -209,6 +232,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -229,6 +259,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/search/'
       preLoaderRoute: typeof SearchIndexLazyRouteImport
       parentRoute: typeof SearchRouteRoute
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexLazyRouteImport
+      parentRoute: typeof ChatRouteRoute
     }
     '/home/vendors': {
       id: '/home/vendors'
@@ -274,6 +311,18 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface ChatRouteRouteChildren {
+  ChatIndexLazyRoute: typeof ChatIndexLazyRoute
+}
+
+const ChatRouteRouteChildren: ChatRouteRouteChildren = {
+  ChatIndexLazyRoute: ChatIndexLazyRoute,
+}
+
+const ChatRouteRouteWithChildren = ChatRouteRoute._addFileChildren(
+  ChatRouteRouteChildren,
+)
 
 interface HomeVendorsVendorIdFoldersFolderIdMessagesRouteRouteChildren {
   HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute: typeof HomeVendorsVendorIdFoldersFolderIdMessagesIndexLazyRoute
@@ -347,6 +396,7 @@ const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatRouteRoute: ChatRouteRouteWithChildren,
   HomeRouteRoute: HomeRouteRouteWithChildren,
   SearchRouteRoute: SearchRouteRouteWithChildren,
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
