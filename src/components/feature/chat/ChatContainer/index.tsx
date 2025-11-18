@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import type { Message } from '@/types/chat';
 import ChatMessage from '@/components/feature/chat/ChatMessage';
+import Loading from '@/components/ui/Loading';
 
 type Props = {
   messages: Message[];
@@ -42,17 +43,7 @@ const ChatContainer: React.FC<Props> = ({ messages, isLoading = false }) => {
           {isLoading && (
             <div className="flex justify-start mb-4">
               <div className="bg-base-200 rounded-lg px-4 py-2">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-base-content/60 rounded-full animate-bounce"></div>
-                  <div
-                    className="w-2 h-2 bg-base-content/60 rounded-full animate-bounce"
-                    style={{ animationDelay: '0.1s' }}
-                  ></div>
-                  <div
-                    className="w-2 h-2 bg-base-content/60 rounded-full animate-bounce"
-                    style={{ animationDelay: '0.2s' }}
-                  ></div>
-                </div>
+                <Loading />
               </div>
             </div>
           )}

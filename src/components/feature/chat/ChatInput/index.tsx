@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import Form from '@/components/ui/Form';
+
 type Props = {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
@@ -13,23 +15,28 @@ const ChatInput: React.FC<Props> = ({
 }) => {
   const [message, setMessage] = useState<string>('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    if (message.trim() && !disabled) {
-      onSendMessage(message.trim());
+  const send = (): void => {
+    const trimMessage = message.trim();
+    if (trimMessage && !disabled) {
+      onSendMessage(trimMessage);
       setMessage('');
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    send();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>);
+      send();
     }
   };
 
   return (
-    <form
+    <Form
       onSubmit={handleSubmit}
       className="flex gap-2 p-4 border-t border-base-300"
     >
@@ -49,7 +56,7 @@ const ChatInput: React.FC<Props> = ({
       >
         送信
       </button>
-    </form>
+    </Form>
   );
 };
 
