@@ -1,7 +1,7 @@
 type Props = {
   message: string;
   isUser: boolean;
-  timestamp?: Date;
+  timestamp: Date;
 };
 
 const ChatMessage: React.FC<Props> = ({ message, isUser, timestamp }) => {
