@@ -12,6 +12,9 @@ const Header: React.FC = () => {
         <Link to="/search" className="text-3xl">
           検索
         </Link>
+        <Link to="/chat" className="text-3xl">
+          チャット
+        </Link>
         <Link to="/settings" className="text-3xl">
           設定
         </Link>
